@@ -14,17 +14,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    TextView vaz, vAZ, v09, vlen, ic_email, ic_match, ic_complexity;
-    LinearLayout complexityList;
-    TextInputEditText eEmail, ePass, ePassConf;
-    Button submit;
-    private int c_incorrect, c_correct, c_ic_enabled, c_ic_disabled;
-    private boolean validEmail, complexPassword, matchesPassword;
+    TextView vaz, vAZ, v09, vlen, ic_email, ic_match, ic_complexity;    // validation TVs & icons
+    LinearLayout complexityList;                                        // Layout with validation TextViews
+    TextInputEditText eEmail, ePass, ePassConf;                         // EditText
+    Button submit;                                                      // register button
+    private int c_incorrect, c_correct, c_ic_enabled, c_ic_disabled;    // my colors
+    private boolean validEmail, complexPassword, matchesPassword;       // validation booleans
+    private FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         linkViews();
+        auth = FirebaseAuth.getInstance();
 
         ePass.addTextChangedListener(new TextWatcher() {
             @Override
@@ -93,15 +96,24 @@ public class RegisterActivity extends AppCompatActivity {
         });
         submit.setOnClickListener(click -> {
             //TODO: CREATE ACCOUNT
+            String password = ePass.getText().toString();
+            String email = eEmail.getText().toString();
+            auth.createUserWithEmailAndPassword(email, password)
+                    .addOnSuccessListener(success -> {
+                        Toast.makeText(this, "Registered!", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    })
+                    .addOnFailureListener(failure -> {
+                        Toast.makeText(getApplicationContext(), failure.getMessage(), Toast.LENGTH_LONG).show();
+                    });
 //            String password = ePass.getText().toString();
 //            SharedPreferences settings = getSharedPreferences("PREFS", 0);
 //            SharedPreferences.Editor editor = settings.edit();
 //            editor.putString("password", password);
 //            editor.apply();
-            Toast.makeText(this, "Registered!", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
+
         });
     }
 
@@ -175,7 +187,6 @@ public class RegisterActivity extends AppCompatActivity {
         v09 = findViewById(R.id.TV09);
         vlen = findViewById(R.id.TVlen);
         complexityList = findViewById(R.id.password_complexity_list);
-
         // link colors:
         c_incorrect = getResources().getColor(R.color.incorrect);
         c_correct = getResources().getColor(R.color.correct);

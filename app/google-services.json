@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "563714080525",
+    "firebase_url": "https://android-project-41657-default-rtdb.firebaseio.com",
+    "project_id": "android-project-41657",
+    "storage_bucket": "android-project-41657.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563714080525:android:4a53481e34fc5881557a44",
+        "android_client_info": {
+          "package_name": "com.example.walletapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563714080525-qp99hs2udoi4etlso9d6c9fuaoa4od85.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpCnNtYNk21PLSg5o1BtEMhI4B0_GIDDY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563714080525-qp99hs2udoi4etlso9d6c9fuaoa4od85.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
