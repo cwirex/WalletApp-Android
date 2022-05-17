@@ -1,0 +1,185 @@
+package com.example.walletapp;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.regex.Pattern;
+
+public class RegisterActivity extends AppCompatActivity {
+
+    TextView vaz, vAZ, v09, vlen, ic_email, ic_match, ic_complexity;
+    LinearLayout complexityList;
+    TextInputEditText eEmail, ePass, ePassConf;
+    Button submit;
+    private int c_incorrect, c_correct, c_ic_enabled, c_ic_disabled;
+    private boolean validEmail, complexPassword, matchesPassword;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_register);
+
+        linkViews();
+
+        ePass.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String password = ePass.getText().toString();
+                String confirm = ePassConf.getText().toString();
+                complexPassword = validateComplexity(password);
+                matchesPassword = validateMatch(password, confirm);
+                submit.setEnabled(validEmail && complexPassword && matchesPassword);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+        ePassConf.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String password = ePass.getText().toString();
+                String confirm = ePassConf.getText().toString();
+                matchesPassword = validateMatch(password, confirm);
+                submit.setEnabled(validEmail && complexPassword && matchesPassword);
+            }
+        });
+        eEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String email = eEmail.getText().toString();
+                validEmail = validateEmail(email);
+
+                submit.setEnabled(validEmail && complexPassword && matchesPassword);
+            }
+        });
+        submit.setOnClickListener(click -> {
+            //TODO: CREATE ACCOUNT
+//            String password = ePass.getText().toString();
+//            SharedPreferences settings = getSharedPreferences("PREFS", 0);
+//            SharedPreferences.Editor editor = settings.edit();
+//            editor.putString("password", password);
+//            editor.apply();
+            Toast.makeText(this, "Registered!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+    }
+
+    private boolean validateEmail(String email) {
+        boolean valid = true;
+        if(!email.matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")){
+            ic_email.setBackgroundTintList(ColorStateList.valueOf(c_ic_disabled));
+            valid = false;
+        } else
+            ic_email.setBackgroundTintList(ColorStateList.valueOf(c_ic_enabled));
+        return valid;
+    }
+
+    private boolean validateMatch(String s1, String s2) {
+        boolean valid = true;
+        if(!s1.equals(s2)){
+            ic_match.setBackgroundTintList(ColorStateList.valueOf(c_ic_disabled));
+            valid = false;
+        } else
+            ic_match.setBackgroundTintList(ColorStateList.valueOf(c_ic_enabled));
+        return valid;
+    }
+
+    private boolean validateComplexity(String s1) {
+        Pattern lowerCase = Pattern.compile("[a-z]");
+        Pattern upperCase = Pattern.compile("[A-Z]");
+        Pattern digitalCase = Pattern.compile("[0-9]");
+        boolean valid = true;
+        if(!lowerCase.matcher(s1).find()) {
+            vaz.setTextColor(c_incorrect);
+            valid = false;
+        } else
+            vaz.setTextColor(c_correct);
+        if(!upperCase.matcher(s1).find()){
+            vAZ.setTextColor(c_incorrect);
+            valid = false;
+        } else
+            vAZ.setTextColor(c_correct);
+        if(!digitalCase.matcher(s1).find()){
+            v09.setTextColor(c_incorrect);
+            valid = false;
+        } else
+            v09.setTextColor(c_correct);
+        if(s1.length() < 5){
+            vlen.setTextColor(c_incorrect);
+            valid = false;
+        } else
+            vlen.setTextColor(c_correct);
+
+        if(!valid){     // Change states
+            ic_complexity.setBackgroundTintList(ColorStateList.valueOf(c_ic_disabled));
+            complexityList.setVisibility(View.VISIBLE);
+        } else {
+            ic_complexity.setBackgroundTintList(ColorStateList.valueOf(c_ic_enabled));
+            complexityList.setVisibility(View.GONE);
+        }
+
+        return valid;
+    }
+
+    private void linkViews() {
+        eEmail = findViewById(R.id.et_emailREGISTER);
+        ePass = findViewById(R.id.et_passwordREGISTER);
+        ePassConf = findViewById(R.id.et_passwordConfirmREGISTER);
+        submit = findViewById(R.id.btn_register);
+        ic_email = findViewById(R.id.icon_check_correctEmail);
+        ic_match = findViewById(R.id.icon_check_passwordsMatch);
+        ic_complexity = findViewById(R.id.icon_check_passwordComplexity);
+        vaz = findViewById(R.id.TVaz);
+        vAZ = findViewById(R.id.TVAZ);
+        v09 = findViewById(R.id.TV09);
+        vlen = findViewById(R.id.TVlen);
+        complexityList = findViewById(R.id.password_complexity_list);
+
+        // link colors:
+        c_incorrect = getResources().getColor(R.color.incorrect);
+        c_correct = getResources().getColor(R.color.correct);
+        c_ic_enabled = getResources().getColor(R.color.ic_enabled);
+        c_ic_disabled = getResources().getColor(R.color.ic_disabled);
+    }
+}

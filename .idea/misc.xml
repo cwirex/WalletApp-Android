@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/drawable/ic_baseline_check_circle_24.xml" value="0.315" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/drawable/ic_delete.xml" value="0.315" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.315" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/activity_login.xml" value="0.30085470085470084" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/activity_register.xml" value="0.33" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_f_item.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_f_item_add.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_f_item_edit.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_f_summary.xml" value="0.33" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_v_list_items.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/list_row_items.xml" value="0.36666666666666664" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
