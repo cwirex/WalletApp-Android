@@ -33,7 +33,8 @@
             android:height="40dp"
             android:autofillHints="emailAddress"
             android:hint="@string/email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:text="mywallet@wallet.app" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -53,6 +54,7 @@
             android:height="40dp"
             android:autofillHints="password"
             android:hint="@string/password"
+            android:text="Mywallet1"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 

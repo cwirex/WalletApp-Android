@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private Button btn_logout;
+    private Button btn_profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         btn_logout = findViewById(R.id.btn_logout);
+        btn_profile = findViewById(R.id.btn_profile);
         auth = FirebaseAuth.getInstance();
 
         btn_logout.setOnClickListener(click -> {
@@ -36,6 +38,12 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
             startActivity(intent);
             finish();
+        });
+
+        btn_profile.setOnClickListener(click -> {
+            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
         });
 
         FirebaseUser user = auth.getCurrentUser();
