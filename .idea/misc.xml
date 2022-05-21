@@ -5,7 +5,11 @@
       <map>
         <entry key="..\:/Users/mateusz/AndroidStudioProjects/WalletApp/app/src/main/res/layout/activity_main.xml" value="0.19655521783181357" />
         <entry key="..\:/Users/mateusz/AndroidStudioProjects/WalletApp/app/src/main/res/layout/activity_profile.xml" value="0.36778846153846156" />
+        <entry key="..\:/Users/mateusz/AndroidStudioProjects/WalletApp/app/src/main/res/layout/activity_register.xml" value="0.4041666666666667" />
         <entry key="..\:/Users/mateusz/AndroidStudioProjects/WalletApp/app/src/main/res/layout/activity_start.xml" value="0.19655521783181357" />
+        <entry key="..\:/Users/mateusz/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_profile_display.xml" value="0.4041666666666667" />
+        <entry key="..\:/Users/mateusz/AndroidStudioProjects/WalletApp/app/src/main/res/layout/list_row_items.xml" value="0.4041666666666667" />
+        <entry key="..\:/Users/mateusz/AndroidStudioProjects/WalletApp/app/src/main/res/layout/list_row_items_profile_fragments.xml" value="0.4720194647201946" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/drawable/ic_baseline_check_circle_24.xml" value="0.315" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/drawable/ic_check.xml" value="0.158" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/drawable/ic_check_28.xml" value="0.158" />

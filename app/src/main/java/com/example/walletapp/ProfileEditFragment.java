@@ -20,8 +20,11 @@ public class ProfileEditFragment extends Fragment {
     // Factory method parameters
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private String strValue;
+    private static final String ARG_PARAM3 = "param3";
+    private static final String ARG_PARAM4 = "param4";
+    private String strValue, strContext;
     private Integer containerViewId;
+    private boolean editable;
 
     private ImageView btn_save;
     private EditText editText;
@@ -38,33 +41,14 @@ public class ProfileEditFragment extends Fragment {
         btn_save.setOnClickListener(click -> {          // switch to displayFragment when clicked
             String s1 = editText.getText().toString();
             if(!s1.equals(strValue)){ // update profile and DB
+                updateProfile(s1, strContext);
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                int id = containerViewId;
-                if (id == R.id.frameName) {
-                    Profile.name = s1;
-                    db.collection("profiles")
-                            .document("example")
-                            .update("name", s1)
-                            .addOnFailureListener(l -> Toast.makeText(getContext(), "Update failed.", Toast.LENGTH_SHORT).show());
-                } else if (id == R.id.frameEmail) {
-                    Profile.email = s1;
-                    db.collection("profiles")
-                            .document("example")
-                            .update("email", s1)
-                            .addOnFailureListener(l -> Toast.makeText(getContext(), "Update failed.", Toast.LENGTH_SHORT).show());
-                } else if (id == R.id.framePhone) {
-                    Profile.phone = s1;
-                    db.collection("profiles")
-                            .document("example")
-                            .update("phone", s1);
-                } else if (id == R.id.frameBank) {
-                    Profile.bank = s1;
-                    db.collection("profiles")
-                            .document("example")
-                            .update("bank", s1);
-                }
+                db.collection("profiles")
+                        .document("example")
+                        .update(strContext, s1)
+                        .addOnFailureListener(l -> Toast.makeText(getContext(), "Update failed.", Toast.LENGTH_SHORT).show());
             }
-            ProfileDisplayFragment displayFragment = ProfileDisplayFragment.newInstance(s1, containerViewId);
+            ProfileDisplayFragment displayFragment = ProfileDisplayFragment.newInstance(s1, containerViewId, strContext, editable);
             FragmentTransaction FT = getParentFragmentManager().beginTransaction()
                     .replace(containerViewId, displayFragment);
             FT.commit();
@@ -73,15 +57,34 @@ public class ProfileEditFragment extends Fragment {
         return view;
     }
 
+    private void updateProfile(String newValue, String strContext) {
+        switch (strContext) {
+            case "name":
+                Profile.name = newValue;
+                break;
+            case "email":
+                Profile.email = newValue;
+                break;
+            case "phone":
+                Profile.phone = newValue;
+                break;
+            case "bank":
+                Profile.bank = newValue;
+                break;
+        }
+    }
+
     public ProfileEditFragment() {
         // Required empty public constructor
     }
 
-    public static ProfileEditFragment newInstance(String param1, Integer param2) {
+    public static ProfileEditFragment newInstance(String param1, Integer param2, String param3, Boolean param4) {
         ProfileEditFragment fragment = new ProfileEditFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putInt(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM3, param3);
+        args.putBoolean(ARG_PARAM4, param4);
         fragment.setArguments(args);
         return fragment;
     }
@@ -92,6 +95,8 @@ public class ProfileEditFragment extends Fragment {
         if (getArguments() != null) {
             strValue = getArguments().getString(ARG_PARAM1);
             containerViewId = getArguments().getInt(ARG_PARAM2);
+            strContext = getArguments().getString(ARG_PARAM3);
+            editable = getArguments().getBoolean(ARG_PARAM4);
         }
     }
 }

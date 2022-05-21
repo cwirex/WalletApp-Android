@@ -102,8 +102,8 @@ public class MainActivity extends AppCompatActivity {
                             Profile.bank = document.getString("bank");
                         }
                     }
+                    pgBar.setVisibility(View.GONE);
+                    pgBackground.setVisibility(View.GONE);
                 });
-        pgBar.setVisibility(View.GONE);
-        pgBackground.setVisibility(View.GONE);
     }
 }
