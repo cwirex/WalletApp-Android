@@ -1,17 +1,19 @@
 package com.example.walletapp;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
@@ -29,6 +31,21 @@ public class ProfileEditFragment extends Fragment {
     private ImageView btn_save;
     private EditText editText;
 
+    public ProfileEditFragment() {
+        // Required empty public constructor
+    }
+
+    public static ProfileEditFragment newInstance(String param1, Integer param2, String param3, Boolean param4) {
+        ProfileEditFragment fragment = new ProfileEditFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putInt(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM3, param3);
+        args.putBoolean(ARG_PARAM4, param4);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,13 +57,15 @@ public class ProfileEditFragment extends Fragment {
 
         btn_save.setOnClickListener(click -> {          // switch to displayFragment when clicked
             String s1 = editText.getText().toString();
-            if(!s1.equals(strValue)){ // update profile and DB
+            if (!s1.equals(strValue)) { // update profile and DB
                 updateProfile(s1, strContext);
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
+                String UID = FirebaseAuth.getInstance().getUid();
+                assert UID != null;
                 db.collection("profiles")
-                        .document("example")
+                        .document(UID)
                         .update(strContext, s1)
-                        .addOnFailureListener(l -> Toast.makeText(getContext(), "Update failed.", Toast.LENGTH_SHORT).show());
+                        .addOnFailureListener(l -> Log.w(TAG, "DB update failed"));
             }
             ProfileDisplayFragment displayFragment = ProfileDisplayFragment.newInstance(s1, containerViewId, strContext, editable);
             FragmentTransaction FT = getParentFragmentManager().beginTransaction()
@@ -72,21 +91,6 @@ public class ProfileEditFragment extends Fragment {
                 Profile.bank = newValue;
                 break;
         }
-    }
-
-    public ProfileEditFragment() {
-        // Required empty public constructor
-    }
-
-    public static ProfileEditFragment newInstance(String param1, Integer param2, String param3, Boolean param4) {
-        ProfileEditFragment fragment = new ProfileEditFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putInt(ARG_PARAM2, param2);
-        args.putString(ARG_PARAM3, param3);
-        args.putBoolean(ARG_PARAM4, param4);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override

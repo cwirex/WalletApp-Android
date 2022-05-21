@@ -1,7 +1,6 @@
 package com.example.walletapp;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.Task;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn_logout.setOnClickListener(click -> {
             auth.signOut();
+            Profile.UID = "";
             Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
             startActivity(intent);
@@ -53,17 +55,19 @@ public class MainActivity extends AppCompatActivity {
         btn_profile.setOnClickListener(click -> {
             Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
             startActivity(intent);
-            Toast.makeText(this, "Profile", Toast.LENGTH_SHORT).show();
         });
 
-        FirebaseUser user = auth.getCurrentUser();
-        String UID = user.getUid();
-        if(!Objects.equals(Profile.UID, UID)) {
-            Profile.UID = UID;
-            getUserProfile("example"); //todo: UID
-        }
-        FirebaseDatabase firebaseDb = FirebaseDatabase.getInstance();
 
+        FirebaseUser user = auth.getCurrentUser();
+        assert user != null;
+        String UID = user.getUid();
+        if (!Objects.equals(Profile.UID, UID)) {
+            Profile.UID = UID;
+            getUserProfile(user.getUid());
+        }
+
+
+        FirebaseDatabase firebaseDb = FirebaseDatabase.getInstance();
         //read from realtime db:
         firebaseDb.getReference()
                 .child("Last user")
@@ -85,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
 //                .setValue(UID);
 
     }
+
     private void getUserProfile(String UID) {
         pgBar.setVisibility(View.VISIBLE);
         pgBackground.setVisibility(View.VISIBLE);
@@ -96,10 +101,14 @@ public class MainActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            Profile.email = document.getString("email");
-                            Profile.name = document.getString("name");
-                            Profile.phone = document.getString("phone");
-                            Profile.bank = document.getString("bank");
+                            try {
+                                Profile.email = document.getString("email");
+                                Profile.name = document.getString("name");
+                                Profile.phone = document.getString("phone");
+                                Profile.bank = document.getString("bank");
+                            } catch (RuntimeException exception) {
+                                Log.e(TAG, "getUserProfile() caused: " + exception.getCause().toString());
+                            }
                         }
                     }
                     pgBar.setVisibility(View.GONE);

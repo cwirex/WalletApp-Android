@@ -1,7 +1,5 @@
 package com.example.walletapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -13,9 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -98,9 +101,25 @@ public class RegisterActivity extends AppCompatActivity {
             //TODO: CREATE ACCOUNT
             String password = ePass.getText().toString();
             String email = eEmail.getText().toString();
+
+            HashMap<String, String> hashMap = new HashMap<>();
+            String name = email.substring(0, email.indexOf('@'));
+            name = name.substring(0, 1).toUpperCase(Locale.ROOT) + name.substring(1);
+            hashMap.put("email", email);
+            hashMap.put("name", name);
+
             auth.createUserWithEmailAndPassword(email, password)
                     .addOnSuccessListener(success -> {
+                        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+                        firestore.collection("profiles")
+                                .document(auth.getUid())
+                                .set(hashMap);
+
+//                        Profile.UID = auth.getUid();
+//                        Profile.email = hashMap.get("email");
+//                        Profile.name = hashMap.get("name");
                         Toast.makeText(this, "Registered!", Toast.LENGTH_SHORT).show();
+
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -119,7 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validateEmail(String email) {
         boolean valid = true;
-        if(!email.matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")){
+        if (!email.matches("(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])")) {
             ic_email.setBackgroundTintList(ColorStateList.valueOf(c_ic_disabled));
             valid = false;
         } else
@@ -129,7 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private boolean validateMatch(String s1, String s2) {
         boolean valid = true;
-        if(!s1.equals(s2)){
+        if (!s1.equals(s2)) {
             ic_match.setBackgroundTintList(ColorStateList.valueOf(c_ic_disabled));
             valid = false;
         } else
@@ -142,28 +161,28 @@ public class RegisterActivity extends AppCompatActivity {
         Pattern upperCase = Pattern.compile("[A-Z]");
         Pattern digitalCase = Pattern.compile("[0-9]");
         boolean valid = true;
-        if(!lowerCase.matcher(s1).find()) {
+        if (!lowerCase.matcher(s1).find()) {
             vaz.setTextColor(c_incorrect);
             valid = false;
         } else
             vaz.setTextColor(c_correct);
-        if(!upperCase.matcher(s1).find()){
+        if (!upperCase.matcher(s1).find()) {
             vAZ.setTextColor(c_incorrect);
             valid = false;
         } else
             vAZ.setTextColor(c_correct);
-        if(!digitalCase.matcher(s1).find()){
+        if (!digitalCase.matcher(s1).find()) {
             v09.setTextColor(c_incorrect);
             valid = false;
         } else
             v09.setTextColor(c_correct);
-        if(s1.length() < 5){
+        if (s1.length() < 5) {
             vlen.setTextColor(c_incorrect);
             valid = false;
         } else
             vlen.setTextColor(c_correct);
 
-        if(!valid){     // Change states
+        if (!valid) {     // Change states
             ic_complexity.setBackgroundTintList(ColorStateList.valueOf(c_ic_disabled));
             complexityList.setVisibility(View.VISIBLE);
         } else {
