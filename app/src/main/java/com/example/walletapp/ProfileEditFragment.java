@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class ProfileEditFragment extends Fragment {
@@ -34,7 +37,33 @@ public class ProfileEditFragment extends Fragment {
 
         btn_save.setOnClickListener(click -> {          // switch to displayFragment when clicked
             String s1 = editText.getText().toString();
-            // Todo: Save changes to db
+            if(!s1.equals(strValue)){ // update profile and DB
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                int id = containerViewId;
+                if (id == R.id.frameName) {
+                    Profile.name = s1;
+                    db.collection("profiles")
+                            .document("example")
+                            .update("name", s1)
+                            .addOnFailureListener(l -> Toast.makeText(getContext(), "Update failed.", Toast.LENGTH_SHORT).show());
+                } else if (id == R.id.frameEmail) {
+                    Profile.email = s1;
+                    db.collection("profiles")
+                            .document("example")
+                            .update("email", s1)
+                            .addOnFailureListener(l -> Toast.makeText(getContext(), "Update failed.", Toast.LENGTH_SHORT).show());
+                } else if (id == R.id.framePhone) {
+                    Profile.phone = s1;
+                    db.collection("profiles")
+                            .document("example")
+                            .update("phone", s1);
+                } else if (id == R.id.frameBank) {
+                    Profile.bank = s1;
+                    db.collection("profiles")
+                            .document("example")
+                            .update("bank", s1);
+                }
+            }
             ProfileDisplayFragment displayFragment = ProfileDisplayFragment.newInstance(s1, containerViewId);
             FragmentTransaction FT = getParentFragmentManager().beginTransaction()
                     .replace(containerViewId, displayFragment);

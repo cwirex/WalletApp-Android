@@ -31,7 +31,7 @@
         android:text="Name"
         />
     <FrameLayout
-        android:id="@+id/frame1"
+        android:id="@+id/frameName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
@@ -49,7 +49,7 @@
         android:text="Email"
         />
     <FrameLayout
-        android:id="@+id/frame2"
+        android:id="@+id/frameEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
@@ -67,7 +67,7 @@
         android:text="Phone number"
         />
     <FrameLayout
-        android:id="@+id/frame3"
+        android:id="@+id/framePhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
@@ -85,7 +85,7 @@
         android:text="Bank account"
         />
     <FrameLayout
-        android:id="@+id/frame4"
+        android:id="@+id/frameBank"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
