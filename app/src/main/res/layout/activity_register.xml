@@ -81,8 +81,8 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
-        android:elevation="2dp"
         app:cardCornerRadius="2dp"
+        app:cardElevation="3dp"
         app:contentPadding="10dp">
 
         <LinearLayout
@@ -119,6 +119,7 @@
                     android:text="Correct email"
                     android:textColor="@android:color/black" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -192,6 +193,7 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
             </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
@@ -221,11 +223,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <Button
-            android:layout_gravity="bottom"
             android:id="@+id/btn_register"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
             android:layout_marginHorizontal="20dp"
             android:layout_marginBottom="30dp"
             android:enabled="false"

@@ -62,7 +62,7 @@ public class ProfileEditFragment extends Fragment {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 String UID = FirebaseAuth.getInstance().getUid();
                 assert UID != null;
-                db.collection("profiles")
+                db.collection("users")
                         .document(UID)
                         .update(strContext, s1)
                         .addOnFailureListener(l -> Log.w(TAG, "DB update failed"));
@@ -79,16 +79,16 @@ public class ProfileEditFragment extends Fragment {
     private void updateProfile(String newValue, String strContext) {
         switch (strContext) {
             case "name":
-                Profile.name = newValue;
+                User.name = newValue;
                 break;
             case "email":
-                Profile.email = newValue;
+                User.email = newValue;
                 break;
             case "phone":
-                Profile.phone = newValue;
+                User.phone = newValue;
                 break;
             case "bank":
-                Profile.bank = newValue;
+                User.bank = newValue;
                 break;
         }
     }

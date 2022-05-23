@@ -5,11 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".FListItems">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+    <ProgressBar
+        android:id="@+id/progressBarFLIST"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/listExpenses"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="3dp"
         tools:listitem="@layout/list_row_items" />
-
 </FrameLayout>

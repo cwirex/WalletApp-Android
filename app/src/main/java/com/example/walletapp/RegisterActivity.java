@@ -97,8 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                 submit.setEnabled(validEmail && complexPassword && matchesPassword);
             }
         });
-        submit.setOnClickListener(click -> {
-            //TODO: CREATE ACCOUNT
+        submit.setOnClickListener(click -> {        // Create account
             String password = ePass.getText().toString();
             String email = eEmail.getText().toString();
 
@@ -111,13 +110,13 @@ public class RegisterActivity extends AppCompatActivity {
             auth.createUserWithEmailAndPassword(email, password)
                     .addOnSuccessListener(success -> {
                         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-                        firestore.collection("profiles")
+                        firestore.collection("users")
                                 .document(auth.getUid())
                                 .set(hashMap);
 
-//                        Profile.UID = auth.getUid();
-//                        Profile.email = hashMap.get("email");
-//                        Profile.name = hashMap.get("name");
+//                        User.UID = auth.getUid();
+//                        User.email = hashMap.get("email");
+//                        User.name = hashMap.get("name");
                         Toast.makeText(this, "Registered!", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);

@@ -11,24 +11,20 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
-    private Button btn_logout, btn_profile;
+    private Button btn_logout, btn_profile, btn_expenses;
     private ProgressBar pgBar;
     private TextView pgBackground;
 
@@ -39,13 +35,14 @@ public class MainActivity extends AppCompatActivity {
 
         btn_logout = findViewById(R.id.btn_logout);
         btn_profile = findViewById(R.id.btn_profile);
+        btn_expenses = findViewById(R.id.btn_expense);
         pgBar = findViewById(R.id.pgMAIN);
         pgBackground = findViewById(R.id.pgBackgroundMAIN);
         auth = FirebaseAuth.getInstance();
 
         btn_logout.setOnClickListener(click -> {
             auth.signOut();
-            Profile.UID = "";
+            User.UID = "";
             Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
             startActivity(intent);
@@ -57,44 +54,26 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        btn_expenses.setOnClickListener(click -> {
+            Intent intent = new Intent(getApplicationContext(), ExpensesActivity.class);
+            startActivity(intent);
+        });
+
 
         FirebaseUser user = auth.getCurrentUser();
         assert user != null;
         String UID = user.getUid();
-        if (!Objects.equals(Profile.UID, UID)) {
-            Profile.UID = UID;
-            getUserProfile(user.getUid());
+        if (!Objects.equals(User.UID, UID)) {
+            User.UID = UID;
+            getUserData(user.getUid());
         }
-
-
-        FirebaseDatabase firebaseDb = FirebaseDatabase.getInstance();
-        //read from realtime db:
-        firebaseDb.getReference()
-                .child("Last user")
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        String value = snapshot.getValue(String.class);
-//                        Toast.makeText(MainActivity.this, "UID: " + value, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-        //save to realtime db:
-//        firebaseDb.getReference()
-//                .child("Last user")
-//                .setValue(UID);
-
     }
 
-    private void getUserProfile(String UID) {
+    private void getUserData(String UID) {
         pgBar.setVisibility(View.VISIBLE);
         pgBackground.setVisibility(View.VISIBLE);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("profiles")
+        db.collection("users")
                 .document(UID)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -102,14 +81,29 @@ public class MainActivity extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             try {
-                                Profile.email = document.getString("email");
-                                Profile.name = document.getString("name");
-                                Profile.phone = document.getString("phone");
-                                Profile.bank = document.getString("bank");
+                                User.email = document.getString("email");
+                                User.name = document.getString("name");
+                                User.phone = document.getString("phone");
+                                User.bank = document.getString("bank");
                             } catch (RuntimeException exception) {
                                 Log.e(TAG, "getUserProfile() caused: " + exception.getCause().toString());
                             }
                         }
+                    }
+                    getUserExpenses(UID);
+                });
+    }
+
+    private void getUserExpenses(String UID) {
+        User.expenses.clear();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("users")
+                .document(UID)
+                .collection("expenses")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
+                        User.expenses.add(new Expense(doc.getData(), doc.getReference().getId()));
                     }
                     pgBar.setVisibility(View.GONE);
                     pgBackground.setVisibility(View.GONE);
