@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -65,7 +66,8 @@ public class ProfileEditFragment extends Fragment {
                 db.collection("users")
                         .document(UID)
                         .update(strContext, s1)
-                        .addOnFailureListener(l -> Log.w(TAG, "DB update failed"));
+                        .addOnFailureListener(l -> Log.w(TAG, "DB update failed"))
+                        .addOnSuccessListener(s -> Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show());
             }
             ProfileDisplayFragment displayFragment = ProfileDisplayFragment.newInstance(s1, containerViewId, strContext, editable);
             FragmentTransaction FT = getParentFragmentManager().beginTransaction()

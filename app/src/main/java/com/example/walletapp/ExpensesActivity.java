@@ -1,5 +1,6 @@
 package com.example.walletapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -19,7 +20,9 @@ public class ExpensesActivity extends AppCompatActivity {
         btn_back = findViewById(R.id.btn_goBackEXPENSES);
 
         btn_add.setOnClickListener(l -> {
-            //add expense
+            Intent intent = new Intent(this, CreateExpenseActivity.class);
+            startActivity(intent);
+            finish();
         });
 
         btn_back.setOnClickListener(l -> finish());

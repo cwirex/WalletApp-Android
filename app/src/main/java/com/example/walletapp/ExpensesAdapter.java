@@ -27,9 +27,9 @@ public class ExpensesAdapter extends ArrayAdapter<Expense> {
 
         tvTitle.setText(expense.title);
         tvCost.setText(cost);
-        if (expense.category.equals("income")) {
-            tvCost.setTextColor(getContext().getResources().getColor(R.color.cost_green));
-        }
+//        if (expense.category.equals("income")) {
+//            tvCost.setTextColor(getContext().getResources().getColor(R.color.cost_green));
+//        }
         return convertView;
     }
 }

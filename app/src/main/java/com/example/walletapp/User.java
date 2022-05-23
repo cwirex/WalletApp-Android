@@ -10,4 +10,6 @@ public class User {
     public static String UID = "";
     public static ArrayList<Expense> expenses = new ArrayList<>();
 
+    private User() {
+    }
 }

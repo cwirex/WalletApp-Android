@@ -1,104 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FItem">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/fitem_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="serif-monospace"
+            android:text="JAN 26 2019"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="26sp"
+            android:textStyle="bold" />
 
         <!-- TITLE -->
         <TextView
             android:id="@+id/fitem_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="sans-serif-condensed"
+            android:text="Tytuł"
             android:textAlignment="center"
             android:textColor="@color/black"
-            android:layout_marginTop="44dp"
-            android:textSize="28sp"
-            android:text="Tytuł"
-            />
+            android:textSize="30sp" />
+
         <View
             android:layout_width="match_parent"
-            android:layout_marginHorizontal="120dp"
             android:layout_height="2dp"
-            android:layout_marginTop="2dp"
-            android:background="@color/teal_200"
-            />
+            android:layout_marginHorizontal="70dp"
+            android:layout_marginTop="5dp"
+            android:background="@color/teal_200" />
 
-        <!-- COST -->
-        <TextView
-            android:id="@+id/fitem_cost"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_marginVertical="28dp"
-            android:textSize="24sp"
-            android:textColor="@color/cost_green"
-            android:text="+24.07"
-            />
 
         <!-- CATEGORY -->
         <TextView
             android:id="@+id/fitem_category"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="italic"
-            android:textAlignment="center"
-            android:textSize="17sp"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-condensed"
             android:text="Kategoria"
-            />
+            android:textAlignment="center"
+            android:textSize="19sp" />
 
-        <!-- OPIS -->
-        <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        <!-- COST -->
+        <TextView
+            android:id="@+id/fitem_cost"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="12dp"
-            android:layout_marginVertical="6dp"
-            >
-            <TextView
-                android:id="@+id/fitem_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="(\nbrak opisu\n)"
-                android:textAlignment="center"
-                android:padding="6dp"
-                />
-        </androidx.cardview.widget.CardView>
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="sans-serif-black"
+            android:text="19.99"
+            android:textAlignment="center"
+            android:textColor="@color/cost_red"
+            android:textSize="30sp" />
 
-        <!-- BUTTONS -->
-        <RelativeLayout
+
+        <TextView
+            android:id="@+id/fitem_description"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            <LinearLayout
-                android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:padding="6dp"
+            android:text="(\nbrak opisu\n)"
+            android:textAlignment="center"
+            android:textStyle="italic" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:id="@+id/fitem_back"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_alignParentBottom="true"
-                >
-                <Button
-                    android:id="@+id/fitem_btn_edit"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="12dp"
-                    android:text="Edytuj"
-                    />
+                android:src="@drawable/ic_backspace_60"
+                app:tint="@color/purple_700" />
 
-                <Button
-                    android:id="@+id/fitem_btn_return"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/grey"
-                    android:layout_marginHorizontal="12dp"
-                    android:layout_marginBottom="50dp"
-                    android:text="Powrót"
-                    />
-            </LinearLayout>
-        </RelativeLayout>
+            <ImageView
+                android:id="@+id/fitem_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="80dp"
+                android:src="@drawable/ic_edit_40"
+                app:tint="@color/purple_700" />
+        </LinearLayout>
+
     </LinearLayout>
-
 </FrameLayout>

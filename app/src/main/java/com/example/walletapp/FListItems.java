@@ -6,17 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 
 public class FListItems extends Fragment {
 
-
     ExpensesAdapter adapter;
     ListView listView;
-
 
     public FListItems() {
         // Required empty public constructor
@@ -40,16 +38,12 @@ public class FListItems extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int pos, long id) {
                 Expense expense = (Expense) parent.getItemAtPosition(pos);
-                Toast.makeText(getContext(), expense.title, Toast.LENGTH_SHORT).show();
+                FItem fragment = FItem.newInstance(expense.title, expense.cost, expense.description, expense.date, expense.category, expense.id);
+                FragmentTransaction FT = getParentFragmentManager().beginTransaction()
+                        .replace(R.id.frameExpenses, fragment);
+                FT.commit();
             }
         });
-//// SAVE:
-//                FirebaseFirestore db = FirebaseFirestore.getInstance();
-//                db.collection("users")
-//                        .document(UID)
-//                        .collection("expenses")
-//                        .add(e)
-//                        .addOnSuccessListener(l -> Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show());
         return v;
     }
 }

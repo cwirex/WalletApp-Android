@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WalletApp">
         <activity
+            android:name=".CreateExpenseActivity"
+            android:exported="false" />
+        <activity
             android:name=".ExpensesActivity"
             android:exported="false" />
         <activity

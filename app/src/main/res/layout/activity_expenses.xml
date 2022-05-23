@@ -46,15 +46,18 @@
             android:id="@+id/btn_newExpenseEXPENSES"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/teal_700"
-            android:text="New expense" />
+            android:padding="8dp"
+            android:text="New expense"
+            android:textSize="17sp" />
 
         <Button
             android:id="@+id/btn_goBackEXPENSES"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/grey"
-            android:text="Go Back" />
+            android:padding="8dp"
+            android:text="Go Back"
+            android:textSize="17sp" />
     </LinearLayout>
 
 </LinearLayout>
