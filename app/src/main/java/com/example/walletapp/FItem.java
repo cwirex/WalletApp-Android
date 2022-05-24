@@ -1,5 +1,7 @@
 package com.example.walletapp;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +21,7 @@ public class FItem extends Fragment {
     private static final String ARG_CATEGORY = "param_CATEGORY";
     private static final String ARG_EID = "param_EID";
     TextView tvdate, tvtitle, tvcategory, tvcost, tvdesc;
-    ImageView icBack, icEdit;
+    ImageView icBack, icEdit, icDelete;
     private String title, category, cost, desc, date, eid;
 
     public FItem() {
@@ -59,6 +61,7 @@ public class FItem extends Fragment {
 
         icBack = v.findViewById(R.id.fitem_back);
         icEdit = v.findViewById(R.id.fitem_edit);
+        icDelete = v.findViewById(R.id.fitem_delete);
 
         tvtitle = v.findViewById(R.id.fitem_title);
         tvcategory = v.findViewById(R.id.fitem_category);
@@ -81,6 +84,27 @@ public class FItem extends Fragment {
 
         icEdit.setOnClickListener(l -> {
             //todo: edit (pass eid)
+        });
+
+        icDelete.setOnClickListener(l -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Delete item")
+                    .setMessage("This operation cannot be undone.")
+                    .setIcon(R.drawable.ic_baseline_delete_40)
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            FListItems fragment = FListItems.newInstance(eid);
+                            FragmentTransaction FT = getParentFragmentManager().beginTransaction()
+                                    .replace(R.id.frameExpenses, fragment);
+                            FT.commit();
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialogInterface, i) -> {
+                        // pass
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         });
 
         return v;
