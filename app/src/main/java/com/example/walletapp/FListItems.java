@@ -14,13 +14,15 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Comparator;
+
 
 public class FListItems extends Fragment {
 
     private static final String ARG = "param";
+    private String deletedExpenseId = "";
     ExpensesAdapter adapter;
     ListView listView;
-    private String deletedExpenseId = "";
 
     public FListItems() {
         // Required empty public constructor
@@ -50,12 +52,14 @@ public class FListItems extends Fragment {
                         Toast.makeText(getContext(), "Deleted", Toast.LENGTH_SHORT).show();
                     });
         }
+        User.expenses.sort(Comparator.comparing(expense -> expense.title));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_f_list_items, container, false);
+
         adapter = new ExpensesAdapter(getContext(), User.expenses);
         listView = v.findViewById(R.id.listExpenses);
         listView.setAdapter(adapter);

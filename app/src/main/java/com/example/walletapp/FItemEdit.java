@@ -1,17 +1,52 @@
 package com.example.walletapp;
 
+import static com.example.walletapp.CreateExpenseActivity.categories;
+
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.time.Month;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Locale;
 
 
 public class FItemEdit extends Fragment {
 
+    private static final String ARG = "param";
+    private String expenseId = "";
+    private Expense expense;
+    private TextInputEditText eTitle, eCost, eDesc;
+    private AutoCompleteTextView spinnerCat;
+    private Button btn_date;
+    private ImageView btn_back, btn_save;
+    DatePickerDialog datePickerDialog;
 
+    public static FItemEdit newInstance(String expenseId) {
+        FItemEdit fragment = new FItemEdit();
+        Bundle args = new Bundle();
+        args.putString(ARG, expenseId);
+        fragment.setArguments(args);
+        return fragment;
+    }
     public FItemEdit() {
         // Required empty public constructor
     }
@@ -19,7 +54,12 @@ public class FItemEdit extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (getArguments() != null) {
+            expenseId = getArguments().getString(ARG);
+            for(Expense e : User.expenses)
+                if(e.id.equals(expenseId))
+                    expense = e;
+        }
     }
 
     @Override
@@ -27,6 +67,123 @@ public class FItemEdit extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_f_item_edit, container, false);
 
+        eTitle = v.findViewById(R.id.fitemedit_et_titleEDIT);
+        eCost = v.findViewById(R.id.fitemedit_et_costEDIT);
+        eDesc = v.findViewById(R.id.fitemedit_et_descEDIT);
+        spinnerCat = v.findViewById(R.id.fitemedit_spinner_categoryEDIT);
+        btn_date = v.findViewById(R.id.fitemedit_btn_datePickerEDIT);
+        btn_back = v.findViewById(R.id.fitemedit_back);
+        btn_save = v.findViewById(R.id.fitemedit_save);
+
+        eTitle.setText(expense.title);
+        eCost.setText(expense.cost);
+        eDesc.setText(expense.description);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.list_item_category, categories);
+        spinnerCat.setText(expense.category);
+        spinnerCat.setAdapter(adapter);
+//        adapter.notifyDataSetChanged();
+
+        btn_date.setText(expense.date);
+        initDatePicker();
+        btn_date.setOnClickListener(this::openDatePicker);
+
+        btn_back.setOnClickListener(l -> {
+            FItem fragment = FItem.newInstance(expense.title, expense.cost, expense.description, expense.date, expense.category, expense.id);
+            FragmentTransaction FT = getParentFragmentManager().beginTransaction()
+                    .replace(R.id.frameExpenses, fragment);
+            FT.commit();
+        });
+
+        btn_save.setOnClickListener(l -> {
+            String title = eTitle.getText().toString();
+            String cost = eCost.getText().toString();
+            String desc = eDesc.getText().toString();
+            String cat = spinnerCat.getText().toString();
+            String date = btn_date.getText().toString();
+            boolean emptyFields = false;
+            if (title.isEmpty()) {
+                eTitle.setError("Fill Title first!");
+                emptyFields = true;
+            }
+            if (cost.isEmpty()) {
+                eCost.setError("Fill Cost first!");
+                emptyFields = true;
+            } else{
+                if(cost.contains(",")){
+                    StringBuilder newCost = new StringBuilder(cost);
+                    newCost.setCharAt(cost.indexOf(","), '.');
+                    cost = newCost.toString();
+                }
+                try{
+                    cost = String.format(Locale.getDefault(),"%.2f", Double.valueOf(cost));
+                } catch (Exception e){
+                    eCost.setError("Invalid value!");
+                    emptyFields = true;
+                }
+            }
+            if (!emptyFields) {
+                HashMap<String, Object> hashMap = new HashMap<>();
+                hashMap.put("title", title);
+                hashMap.put("cost", cost);
+                hashMap.put("category", cat);
+                hashMap.put("desc", desc);
+                hashMap.put("date", date);
+
+                User.expenses.remove(expense);
+                expense.title = title;
+                expense.cost = cost;
+                expense.category = cat;
+                expense.date = date;
+                expense.description = desc;
+                User.expenses.add(expense);
+
+                String UID = FirebaseAuth.getInstance().getUid();
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                db.collection("users")
+                        .document(UID)
+                        .collection("expenses")
+                        .document(expenseId)
+                        .update(hashMap)
+                        .addOnSuccessListener(s -> {
+                            Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+
+                            FItem fragment = FItem.newInstance(expense.title, expense.cost, expense.description, expense.date, expense.category, expense.id);
+                            FragmentTransaction FT = getParentFragmentManager().beginTransaction()
+                                    .replace(R.id.frameExpenses, fragment);
+                            FT.commit();
+                        });
+            }
+        });
         return v;
+    }
+
+
+    private void initDatePicker() {
+        DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int YEAR, int MONTH, int DAY) {
+                String date = makeDateString(YEAR, MONTH + 1, DAY);
+                btn_date.setText(date);
+            }
+        };
+
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        int style = AlertDialog.THEME_HOLO_LIGHT;
+        datePickerDialog = new DatePickerDialog(getContext(), style, onDateSetListener, year, month, day);
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());        // MAX_DATE
+    }
+
+    private String makeDateString(int year, int month, int day) {
+        return Month.of(month).toString().substring(0, 3) + " " + day + " " + year;
+    }
+
+    private void openDatePicker(View view) {
+        datePickerDialog.show();
     }
 }

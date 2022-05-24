@@ -83,7 +83,10 @@ public class FItem extends Fragment {
         });
 
         icEdit.setOnClickListener(l -> {
-            //todo: edit (pass eid)
+            FItemEdit fragment = FItemEdit.newInstance(eid);
+            FragmentTransaction FT = getParentFragmentManager().beginTransaction()
+                    .replace(R.id.frameExpenses, fragment);
+            FT.commit();
         });
 
         icDelete.setOnClickListener(l -> {

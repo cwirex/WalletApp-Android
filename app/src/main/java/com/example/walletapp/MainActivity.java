@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().hide();
 
         btn_logout = findViewById(R.id.btn_logout);
         btn_profile = findViewById(R.id.btn_profile);
@@ -100,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         db.collection("users")
                 .document(UID)
                 .collection("expenses")
+                .orderBy("title")
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {

@@ -22,10 +22,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class CreateExpenseActivity extends AppCompatActivity {
 
-    private final ArrayList<String> categories = new ArrayList<>(Arrays.asList("Bill", "Food", "Gas", "Holidays"));
+    static final ArrayList<String> categories = new ArrayList<>(Arrays.asList("Bill", "Food", "Gas", "Holidays"));
     DatePickerDialog datePickerDialog;
     private Button btn_create, btn_back, btn_date;
     private TextInputEditText eTitle, eCost, eDesc;
@@ -35,6 +36,7 @@ public class CreateExpenseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_expense);
+        getSupportActionBar().hide();
 
         btn_create = findViewById(R.id.btn_addCREATE);
         btn_back = findViewById(R.id.btn_goBackCREATE);
@@ -74,6 +76,18 @@ public class CreateExpenseActivity extends AppCompatActivity {
             if (cost.isEmpty()) {
                 eCost.setError("Fill Cost first!");
                 emptyFields = true;
+            } else{
+                if(cost.contains(",")){
+                    StringBuilder newCost = new StringBuilder(cost);
+                    newCost.setCharAt(cost.indexOf(","), '.');
+                    cost = newCost.toString();
+                }
+                try{
+                    cost = String.format(Locale.getDefault(),"%.2f", Double.valueOf(cost));
+                } catch (Exception e){
+                    eCost.setError("Invalid value!");
+                    emptyFields = true;
+                }
             }
             if (!emptyFields) {
                 eTitle.setText("");
@@ -81,7 +95,7 @@ public class CreateExpenseActivity extends AppCompatActivity {
                 eDesc.setText("");
                 btn_date.setText(getTodaysDate());
 
-                HashMap<String, String> hashMap = new HashMap<>();
+                HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("title", title);
                 hashMap.put("cost", cost);
                 hashMap.put("category", cat);
@@ -97,7 +111,11 @@ public class CreateExpenseActivity extends AppCompatActivity {
                         .add(hashMap)
                         .addOnSuccessListener(s -> {
                             Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-                            addExpenseFromDB(s.getId());
+//                            addExpenseFromDB(s.getId());
+                            User.expenses.add(new Expense(hashMap, s.getId()));
+                            Intent intent = new Intent(this, ExpensesActivity.class);
+                            startActivity(intent);
+                            finish();
                         });
             }
         });
@@ -127,7 +145,7 @@ public class CreateExpenseActivity extends AppCompatActivity {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        int style = AlertDialog.THEME_HOLO_DARK;
+        int style = AlertDialog.THEME_HOLO_LIGHT;
         datePickerDialog = new DatePickerDialog(this, style, onDateSetListener, year, month, day);
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());        // MAX_DATE
     }

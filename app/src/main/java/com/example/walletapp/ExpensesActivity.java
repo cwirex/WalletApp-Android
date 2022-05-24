@@ -15,6 +15,7 @@ public class ExpensesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expenses);
+        getSupportActionBar().hide();
 
         btn_add = findViewById(R.id.btn_newExpenseEXPENSES);
         btn_back = findViewById(R.id.btn_goBackEXPENSES);
