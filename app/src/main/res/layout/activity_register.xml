@@ -37,12 +37,17 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_input_password"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="10dp"
         app:cardCornerRadius="4dp"
+        app:counterEnabled="false"
+        app:counterMaxLength="6"
+        app:counterOverflowTextColor="@color/cost_green"
+        app:counterTextColor="@color/purple_500"
         app:contentPadding="5dp"
         app:passwordToggleEnabled="true">
 
@@ -154,6 +159,16 @@
                 android:visibility="visible">
 
                 <TextView
+                    android:id="@+id/TVlen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:text="length"
+                    android:textColor="@color/incorrect"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
                     android:id="@+id/TVaz"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -183,15 +198,7 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/TVlen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="15dp"
-                    android:text="length > 6"
-                    android:textColor="@color/incorrect"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
+
             </LinearLayout>
 
             <LinearLayout

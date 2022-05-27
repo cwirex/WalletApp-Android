@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -26,6 +27,7 @@ public class RegisterActivity extends AppCompatActivity {
     TextView vaz, vAZ, v09, vlen, ic_email, ic_match, ic_complexity;    // validation TVs & icons
     LinearLayout complexityList;                                        // Layout with validation TextViews
     TextInputEditText eEmail, ePass, ePassConf;                         // EditText
+    TextInputLayout inputPass;
     Button submit;                                                      // register button
     private int c_incorrect, c_correct, c_ic_enabled, c_ic_disabled;    // my colors
     private boolean validEmail, complexPassword, matchesPassword;       // validation booleans
@@ -49,6 +51,9 @@ public class RegisterActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String password = ePass.getText().toString();
                 String confirm = ePassConf.getText().toString();
+                if(password.length() >= 6){
+                    inputPass.setCounterEnabled(false);
+                }
                 complexPassword = validateComplexity(password);
                 matchesPassword = validateMatch(password, confirm);
                 submit.setEnabled(validEmail && complexPassword && matchesPassword);
@@ -56,7 +61,9 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                if(ePass.getText().toString().length() < 6){
+                    inputPass.setCounterEnabled(true);
+                }
             }
         });
         ePassConf.addTextChangedListener(new TextWatcher() {
@@ -133,6 +140,12 @@ public class RegisterActivity extends AppCompatActivity {
 //            editor.apply();
 
         });
+        ePass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean focused) {
+                inputPass.setCounterEnabled(focused && ePass.getText().toString().length() < 6);
+            }
+        });
     }
 
     private boolean validateEmail(String email) {
@@ -146,6 +159,8 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean validateMatch(String s1, String s2) {
+        if(!complexPassword)
+            return false;
         boolean valid = true;
         if (!s1.equals(s2)) {
             ic_match.setBackgroundTintList(ColorStateList.valueOf(c_ic_disabled));
@@ -175,7 +190,7 @@ public class RegisterActivity extends AppCompatActivity {
             valid = false;
         } else
             v09.setTextColor(c_correct);
-        if (s1.length() < 5) {
+        if (s1.length() < 6) {
             vlen.setTextColor(c_incorrect);
             valid = false;
         } else
@@ -205,6 +220,7 @@ public class RegisterActivity extends AppCompatActivity {
         v09 = findViewById(R.id.TV09);
         vlen = findViewById(R.id.TVlen);
         complexityList = findViewById(R.id.password_complexity_list);
+        inputPass = findViewById(R.id.text_input_password);
         // link colors:
         c_incorrect = getResources().getColor(R.color.incorrect);
         c_correct = getResources().getColor(R.color.correct);
