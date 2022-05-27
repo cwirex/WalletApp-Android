@@ -10,13 +10,6 @@ public class Expense {
     public String date;
     public String id;
 
-    public Expense(String title, String cost, String category, String description) {
-        this.title = title;
-        this.cost = cost;
-        this.category = category;
-        this.description = description;
-    }
-
     public Expense(Map<String, Object> data, String id) {
         this.title = (String) data.getOrDefault("title", "");
         this.cost = (String) data.getOrDefault("cost", "");
