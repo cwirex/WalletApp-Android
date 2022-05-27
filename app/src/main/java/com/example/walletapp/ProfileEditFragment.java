@@ -67,12 +67,21 @@ public class ProfileEditFragment extends Fragment {
                         .document(UID)
                         .update(strContext, s1)
                         .addOnFailureListener(l -> Log.w(TAG, "DB update failed"))
-                        .addOnSuccessListener(s -> Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show());
+                        .addOnCompleteListener(task -> {
+                            if (task.isSuccessful())
+                                Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+                            ProfileDisplayFragment displayFragment = ProfileDisplayFragment.newInstance(s1, containerViewId, strContext, editable);
+                            FragmentTransaction FT = getParentFragmentManager().beginTransaction()
+                                    .replace(containerViewId, displayFragment);
+                            FT.commit();
+                        })
+                        .addOnFailureListener(f -> Toast.makeText(getContext(), f.getMessage(), Toast.LENGTH_SHORT).show());
+            } else {
+                ProfileDisplayFragment displayFragment = ProfileDisplayFragment.newInstance(s1, containerViewId, strContext, editable);
+                FragmentTransaction FT = getParentFragmentManager().beginTransaction()
+                        .replace(containerViewId, displayFragment);
+                FT.commit();
             }
-            ProfileDisplayFragment displayFragment = ProfileDisplayFragment.newInstance(s1, containerViewId, strContext, editable);
-            FragmentTransaction FT = getParentFragmentManager().beginTransaction()
-                    .replace(containerViewId, displayFragment);
-            FT.commit();
         });
 
         return view;

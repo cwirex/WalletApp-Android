@@ -1,15 +1,13 @@
 package com.example.walletapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
@@ -32,21 +30,20 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setOnClickListener(click -> {
             String login = eEmail.getText().toString();
             String password = ePass.getText().toString();
-            if(login.isEmpty() || password.isEmpty()){
-                if(login.isEmpty()){
+            if (login.isEmpty() || password.isEmpty()) {
+                if (login.isEmpty()) {
                     eEmail.setError("Field can't be empty");
                 }
-                if(password.isEmpty()){
+                if (password.isEmpty()) {
                     ePass.setError("Field can't be empty");
                 }
             } else {
-                //TODO: LOG IN
                 auth.signInWithEmailAndPassword(login, password)
                         .addOnSuccessListener(result -> {
 //                                Toast.makeText(getApplicationContext(), "Logged in!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
-                                finish();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                            finish();
                         })
                         .addOnFailureListener(result -> Toast.makeText(getApplicationContext(), result.getMessage(), Toast.LENGTH_LONG).show());
             }

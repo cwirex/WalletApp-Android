@@ -16,7 +16,6 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -24,12 +23,16 @@ import java.util.Comparator;
 public class FListItems extends Fragment {
 
     private static final String ARG = "param";
-    private String deletedExpenseId = "";
+    static boolean sortAscending;
+    static String sortBy = "";
+    private final Comparator<Expense> compareByName = Comparator.comparing((Expense o) -> o.title);
+    private final Comparator<Expense> compareByPrice = Comparator.comparing((Expense o) -> Double.valueOf(o.cost));
+    private final Comparator<Expense> compareByDate = Comparator.comparing((Expense o) -> o.dateTime);
     ExpensesAdapter adapter;
     ListView listView;
     MaterialButtonToggleGroup toggleGroup;
     ImageView ic_toggle_up, ic_toggle_down;
-    private boolean sortAscending;
+    private String deletedExpenseId = "";
 
     public FListItems() {
         // Required empty public constructor
@@ -59,7 +62,8 @@ public class FListItems extends Fragment {
                         Toast.makeText(getContext(), "Deleted", Toast.LENGTH_SHORT).show();
                     });
         }
-        User.expenses.sort(Comparator.comparing(expense -> expense.title));
+        if (sortBy.isEmpty())
+            sortBy = "name";
     }
 
     @Override
@@ -70,6 +74,7 @@ public class FListItems extends Fragment {
         ic_toggle_up = v.findViewById(R.id.ic_toggle_rising);
         ic_toggle_down = v.findViewById(R.id.ic_toggle_falling);
         toggleGroup = v.findViewById(R.id.toggleGroup);
+        updateChecked();
 
         adapter = new ExpensesAdapter(getContext(), User.expenses);
         listView = v.findViewById(R.id.listExpenses);
@@ -89,21 +94,22 @@ public class FListItems extends Fragment {
         toggleGroup.addOnButtonCheckedListener(new MaterialButtonToggleGroup.OnButtonCheckedListener() {
             @Override
             public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
-                if(isChecked){
-                    if(checkedId == R.id.toggle_name){
-                        sortItems("name");
-                    } else if(checkedId == R.id.toggle_price){
-                        sortItems("price");
-                    } else if(checkedId == R.id.toggle_date){
-                        sortItems("date");
+                if (isChecked) {
+                    if (checkedId == R.id.toggle_name) {
+                        sortBy = "name";
+                    } else if (checkedId == R.id.toggle_price) {
+                        sortBy = "price";
+                    } else if (checkedId == R.id.toggle_date) {
+                        sortBy = "date";
                     }
+                    sortItems();
                     adapter.notifyDataSetChanged();
                 }
             }
         });
 
         ic_toggle_up.setOnClickListener(l -> {
-            if(sortAscending) {
+            if (sortAscending) {
                 ic_toggle_up.setVisibility(View.GONE);
                 ic_toggle_down.setVisibility(View.VISIBLE);
                 Collections.reverse(User.expenses);
@@ -113,7 +119,7 @@ public class FListItems extends Fragment {
         });
 
         ic_toggle_down.setOnClickListener(l -> {
-            if(!sortAscending){
+            if (!sortAscending) {
                 ic_toggle_down.setVisibility(View.GONE);
                 ic_toggle_up.setVisibility(View.VISIBLE);
                 Collections.reverse(User.expenses);
@@ -125,8 +131,27 @@ public class FListItems extends Fragment {
         return v;
     }
 
-    public void sortItems(String sortBy){
-        if(sortAscending){
+    private void updateChecked() {
+        sortItems();
+        switch (sortBy) {
+            case "name":
+                toggleGroup.check(R.id.toggle_name);
+                break;
+            case "price":
+                toggleGroup.check(R.id.toggle_price);
+                break;
+            case "date":
+                toggleGroup.check(R.id.toggle_date);
+                break;
+        }
+        if (sortAscending)
+            ic_toggle_up.setVisibility(View.VISIBLE);
+        else
+            ic_toggle_down.setVisibility(View.VISIBLE);
+    }
+
+    public void sortItems() {
+        if (sortAscending) {
             switch (sortBy) {
                 case "name":
                     User.expenses.sort(compareByName);
@@ -138,7 +163,7 @@ public class FListItems extends Fragment {
                     User.expenses.sort(compareByDate);
                     break;
             }
-        } else{
+        } else {
             switch (sortBy) {
                 case "name":
                     User.expenses.sort(compareByName.reversed());
@@ -152,8 +177,4 @@ public class FListItems extends Fragment {
             }
         }
     }
-
-    private final Comparator<Expense> compareByName = Comparator.comparing((Expense o) -> o.title);
-    private final Comparator<Expense> compareByPrice = Comparator.comparing((Expense o) -> Double.valueOf(o.cost));
-    private final Comparator<Expense> compareByDate = Comparator.comparing((Expense o) -> o.title); //todo
 }

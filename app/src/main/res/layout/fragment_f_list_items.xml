@@ -37,7 +37,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="2dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:src="@drawable/ic_baseline_falling_28"
                     app:tint="@color/purple_500" />
                 <ImageView
@@ -56,7 +56,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 app:singleSelection="true"
-                app:checkedButton="@+id/toggle_name"
                 >
 
                 <Button

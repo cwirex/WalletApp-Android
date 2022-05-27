@@ -131,6 +131,7 @@
                     style="?android:spinnerStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:contentDescription="datePicker"
                     android:textAlignment="center"
                     android:textColor="@color/dark"
                     android:textSize="20sp" />
