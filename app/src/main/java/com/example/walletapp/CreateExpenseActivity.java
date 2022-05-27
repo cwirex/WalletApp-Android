@@ -102,13 +102,8 @@ public class CreateExpenseActivity extends AppCompatActivity {
                 eCost.setError("Fill Cost first!");
                 emptyFields = true;
             } else {
-                if (cost.contains(",")) {
-                    StringBuilder newCost = new StringBuilder(cost);
-                    newCost.setCharAt(cost.indexOf(","), '.');
-                    cost = newCost.toString();
-                }
                 try {
-                    cost = String.format(Locale.getDefault(), "%.2f", Double.valueOf(cost));
+                    cost = String.format(Locale.US,"%.2f", Double.parseDouble(cost.replace(',','.')));
                 } catch (Exception e) {
                     eCost.setError("Invalid value!");
                     emptyFields = true;

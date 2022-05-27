@@ -112,13 +112,8 @@ public class FItemEdit extends Fragment {
                 eCost.setError("Fill Cost first!");
                 emptyFields = true;
             } else {
-                if (cost.contains(",")) {
-                    StringBuilder newCost = new StringBuilder(cost);
-                    newCost.setCharAt(cost.indexOf(","), '.');
-                    cost = newCost.toString();
-                }
                 try {
-                    cost = String.format(Locale.getDefault(), "%.2f", Double.valueOf(cost));
+                    cost = String.format(Locale.US,"%.2f", Double.parseDouble(cost.replace(',','.')));
                 } catch (Exception e) {
                     eCost.setError("Invalid value!");
                     emptyFields = true;
@@ -135,7 +130,8 @@ public class FItemEdit extends Fragment {
                 hashMap.put("datetime", dateTime);
 
                 User.expenses.remove(expense);
-                User.expenses.add(new Expense(hashMap, expenseId));
+                expense = new Expense(hashMap, expenseId);
+                User.expenses.add(expense);
 
                 String UID = FirebaseAuth.getInstance().getUid();
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
