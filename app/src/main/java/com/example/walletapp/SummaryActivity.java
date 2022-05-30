@@ -52,13 +52,11 @@ public class SummaryActivity extends AppCompatActivity {
                 other += Float.parseFloat(e.cost);
             }
         }
-        try {
-            pieEntries.add(new PieEntry(hashMap.get("Bill"), "Bill"));
-            pieEntries.add(new PieEntry(hashMap.get("Food"), "Food"));
-            pieEntries.add(new PieEntry(hashMap.get("Gas"), "Gas"));
-            pieEntries.add(new PieEntry(hashMap.get("Holidays"), "Holidays"));
-        } catch (Exception ignored) {
 
+        for(String key : hashMap.keySet()){
+            if(hashMap.get(key) > 0){
+                pieEntries.add(new PieEntry(hashMap.get(key), key));
+            }
         }
         if (other > 0) {
             pieEntries.add(new PieEntry(other, "Other"));
