@@ -24,29 +24,43 @@
         android:orientation="vertical">
 
         <Button
+            android:id="@+id/btn_expense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp"
+            android:layout_marginHorizontal="30dp"
+            android:padding="6dp"
+            android:text="Expenses"
+            android:textSize="22sp" />
+
+        <Button
+            android:id="@+id/btn_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="15dp"
+            android:layout_marginHorizontal="30dp"
+            android:backgroundTint="@color/orange"
+            android:padding="6dp"
+            android:text="Summary"
+            android:textSize="22sp" />
+
+        <Button
             android:id="@+id/btn_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginVertical="15dp"
+            android:layout_marginHorizontal="30dp"
             android:backgroundTint="@color/teal_700"
             android:padding="6dp"
             android:text="Profile"
             android:textSize="22sp" />
 
         <Button
-            android:id="@+id/btn_expense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:padding="6dp"
-            android:text="Expenses"
-            android:textSize="22sp" />
-
-        <Button
             android:id="@+id/btn_logout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_marginVertical="15dp"
+            android:layout_marginHorizontal="30dp"
             android:backgroundTint="@color/grey"
             android:padding="6dp"
             android:text="Logout"

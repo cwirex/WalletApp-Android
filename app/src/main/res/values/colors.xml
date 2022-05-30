@@ -11,6 +11,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="cost_green">#00C853</color>
     <color name="cost_red">#FF1744</color>
+    <color name="orange">#FF6D00</color>
     <color name="grey">#333</color>
     <color name="light_grey">#80333333</color>
     <color name="ic_disabled">#42000000</color>

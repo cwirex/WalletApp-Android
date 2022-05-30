@@ -24,7 +24,7 @@ import java.util.Objects;
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
-    private Button btn_logout, btn_profile, btn_expenses;
+    private Button btn_logout, btn_profile, btn_expenses, btn_summary;
     private ProgressBar pgBar;
     private TextView pgBackground;
 
@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         btn_logout = findViewById(R.id.btn_logout);
         btn_profile = findViewById(R.id.btn_profile);
         btn_expenses = findViewById(R.id.btn_expense);
+        btn_summary = findViewById(R.id.btn_summary);
+
         pgBar = findViewById(R.id.pgMAIN);
         pgBackground = findViewById(R.id.pgBackgroundMAIN);
         auth = FirebaseAuth.getInstance();
@@ -57,6 +59,11 @@ public class MainActivity extends AppCompatActivity {
 
         btn_expenses.setOnClickListener(click -> {
             Intent intent = new Intent(getApplicationContext(), ExpensesActivity.class);
+            startActivity(intent);
+        });
+
+        btn_summary.setOnClickListener(click -> {
+            Intent intent = new Intent(getApplicationContext(), SummaryActivity.class);
             startActivity(intent);
         });
 
