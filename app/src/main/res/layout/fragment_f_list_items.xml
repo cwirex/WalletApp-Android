@@ -1,10 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".FListItems">
 
+    <TextView
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sort expenses by:"
+        android:textSize="16sp"
+        android:textColor="@color/purple_500"
+        android:textAlignment="center"/>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/purple_200"
+                >
+                <ImageView
+                    android:id="@+id/ic_toggle_falling"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_baseline_falling_28"
+                    app:tint="@color/purple_500" />
+                <ImageView
+                    android:id="@+id/ic_toggle_rising"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="2dp"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_baseline_rising_28"
+                    app:tint="@color/purple_500"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButtonToggleGroup
+                android:id="@+id/toggleGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:singleSelection="true"
+                >
+
+                <Button
+                    android:id="@+id/toggle_name"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Name" />
+
+                <Button
+                    android:id="@+id/toggle_price"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Price" />
+
+                <Button
+                    android:id="@+id/toggle_date"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Date" />
+            </com.google.android.material.button.MaterialButtonToggleGroup>
+        </LinearLayout>
+    </HorizontalScrollView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/purple_500"
+        />
     <ProgressBar
         android:id="@+id/progressBarFLIST"
         style="?android:attr/progressBarStyle"
@@ -12,11 +93,9 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:visibility="gone" />
-
     <ListView
         android:id="@+id/listExpenses"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="3dp"
         tools:listitem="@layout/list_row_items" />
-</FrameLayout>
+</LinearLayout>

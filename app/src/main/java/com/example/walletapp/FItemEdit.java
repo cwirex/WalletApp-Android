@@ -1,14 +1,11 @@
 package com.example.walletapp;
 
 import static com.example.walletapp.CreateExpenseActivity.categories;
+import static com.example.walletapp.CreateExpenseActivity.myDateToLocalDateTime;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +16,14 @@ import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -32,13 +33,17 @@ import java.util.Locale;
 public class FItemEdit extends Fragment {
 
     private static final String ARG = "param";
+    DatePickerDialog datePickerDialog;
     private String expenseId = "";
     private Expense expense;
     private TextInputEditText eTitle, eCost, eDesc;
     private AutoCompleteTextView spinnerCat;
     private Button btn_date;
     private ImageView btn_back, btn_save;
-    DatePickerDialog datePickerDialog;
+
+    public FItemEdit() {
+        // Required empty public constructor
+    }
 
     public static FItemEdit newInstance(String expenseId) {
         FItemEdit fragment = new FItemEdit();
@@ -47,17 +52,14 @@ public class FItemEdit extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-    public FItemEdit() {
-        // Required empty public constructor
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             expenseId = getArguments().getString(ARG);
-            for(Expense e : User.expenses)
-                if(e.id.equals(expenseId))
+            for (Expense e : User.expenses)
+                if (e.id.equals(expenseId))
                     expense = e;
         }
     }
@@ -85,7 +87,7 @@ public class FItemEdit extends Fragment {
 //        adapter.notifyDataSetChanged();
 
         btn_date.setText(expense.date);
-        initDatePicker();
+        initDatePicker(myDateToLocalDateTime(expense.date));
         btn_date.setOnClickListener(this::openDatePicker);
 
         btn_back.setOnClickListener(l -> {
@@ -109,33 +111,26 @@ public class FItemEdit extends Fragment {
             if (cost.isEmpty()) {
                 eCost.setError("Fill Cost first!");
                 emptyFields = true;
-            } else{
-                if(cost.contains(",")){
-                    StringBuilder newCost = new StringBuilder(cost);
-                    newCost.setCharAt(cost.indexOf(","), '.');
-                    cost = newCost.toString();
-                }
-                try{
-                    cost = String.format(Locale.getDefault(),"%.2f", Double.valueOf(cost));
-                } catch (Exception e){
+            } else {
+                try {
+                    cost = String.format(Locale.US,"%.2f", Double.parseDouble(cost.replace(',','.')));
+                } catch (Exception e) {
                     eCost.setError("Invalid value!");
                     emptyFields = true;
                 }
             }
             if (!emptyFields) {
+                LocalDateTime dateTime = myDateToLocalDateTime(date);
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("title", title);
                 hashMap.put("cost", cost);
                 hashMap.put("category", cat);
                 hashMap.put("desc", desc);
                 hashMap.put("date", date);
+                hashMap.put("datetime", dateTime);
 
                 User.expenses.remove(expense);
-                expense.title = title;
-                expense.cost = cost;
-                expense.category = cat;
-                expense.date = date;
-                expense.description = desc;
+                expense = new Expense(hashMap, expenseId);
                 User.expenses.add(expense);
 
                 String UID = FirebaseAuth.getInstance().getUid();
@@ -160,7 +155,7 @@ public class FItemEdit extends Fragment {
     }
 
 
-    private void initDatePicker() {
+    private void initDatePicker(LocalDateTime localDateTime) {
         DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int YEAR, int MONTH, int DAY) {
@@ -168,11 +163,17 @@ public class FItemEdit extends Fragment {
                 btn_date.setText(date);
             }
         };
-
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int year, month, day;
+        if (localDateTime.equals(LocalDateTime.MIN)) {
+            Calendar calendar = Calendar.getInstance();
+            year = calendar.get(Calendar.YEAR);
+            month = calendar.get(Calendar.MONTH);
+            day = calendar.get(Calendar.DAY_OF_MONTH);
+        } else {
+            year = localDateTime.getYear();
+            month = localDateTime.getMonthValue() - 1;
+            day = localDateTime.getDayOfMonth();
+        }
 
         int style = AlertDialog.THEME_HOLO_LIGHT;
         datePickerDialog = new DatePickerDialog(getContext(), style, onDateSetListener, year, month, day);

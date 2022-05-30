@@ -118,6 +118,7 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/dark"
+                        android:contentDescription="datePicker"
                         android:textSize="20sp" />
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>

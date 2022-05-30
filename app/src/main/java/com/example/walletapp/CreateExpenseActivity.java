@@ -17,12 +17,16 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.StringTokenizer;
 
 public class CreateExpenseActivity extends AppCompatActivity {
 
@@ -31,6 +35,27 @@ public class CreateExpenseActivity extends AppCompatActivity {
     private Button btn_create, btn_back, btn_date;
     private TextInputEditText eTitle, eCost, eDesc;
     private AutoCompleteTextView spinnerCat;
+
+    public static LocalDateTime myDateToLocalDateTime(String date) {
+        StringTokenizer stringTokenizer = new StringTokenizer(date, " ");
+        String sMonth = stringTokenizer.nextToken();
+        String sDay = stringTokenizer.nextToken();
+        String mYear = stringTokenizer.nextToken();
+        int month = 1;
+        for (int i = 1; i <= 12; i++) {
+            if (sMonth.equalsIgnoreCase(Month.of(i).toString().substring(0, 3))) {
+                month = i;
+                break;
+            }
+        }
+        LocalDate localDate = LocalDate.of(Integer.parseInt(mYear), month, Integer.parseInt(sDay));
+        LocalTime localTime = LocalTime.now();
+        if (!localDate.equals(LocalDate.now())) {
+            localTime = LocalTime.MIDNIGHT;
+        }
+
+        return LocalDateTime.of(localDate, localTime);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +101,10 @@ public class CreateExpenseActivity extends AppCompatActivity {
             if (cost.isEmpty()) {
                 eCost.setError("Fill Cost first!");
                 emptyFields = true;
-            } else{
-                if(cost.contains(",")){
-                    StringBuilder newCost = new StringBuilder(cost);
-                    newCost.setCharAt(cost.indexOf(","), '.');
-                    cost = newCost.toString();
-                }
-                try{
-                    cost = String.format(Locale.getDefault(),"%.2f", Double.valueOf(cost));
-                } catch (Exception e){
+            } else {
+                try {
+                    cost = String.format(Locale.US,"%.2f", Double.parseDouble(cost.replace(',','.')));
+                } catch (Exception e) {
                     eCost.setError("Invalid value!");
                     emptyFields = true;
                 }
@@ -95,12 +115,15 @@ public class CreateExpenseActivity extends AppCompatActivity {
                 eDesc.setText("");
                 btn_date.setText(getTodaysDate());
 
+                LocalDateTime dateTime = myDateToLocalDateTime(date);
+
                 HashMap<String, Object> hashMap = new HashMap<>();
                 hashMap.put("title", title);
                 hashMap.put("cost", cost);
                 hashMap.put("category", cat);
                 hashMap.put("desc", desc);
                 hashMap.put("date", date);
+                hashMap.put("datetime", dateTime);
 
                 String UID = FirebaseAuth.getInstance().getUid();
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -111,7 +134,6 @@ public class CreateExpenseActivity extends AppCompatActivity {
                         .add(hashMap)
                         .addOnSuccessListener(s -> {
                             Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-//                            addExpenseFromDB(s.getId());
                             User.expenses.add(new Expense(hashMap, s.getId()));
                             Intent intent = new Intent(this, ExpensesActivity.class);
                             startActivity(intent);
@@ -121,7 +143,7 @@ public class CreateExpenseActivity extends AppCompatActivity {
         });
     }
 
-    private void addExpenseFromDB(String id) {
+/*    private void addExpenseFromDB(String id) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("users")
                 .document(FirebaseAuth.getInstance().getUid())
@@ -129,13 +151,14 @@ public class CreateExpenseActivity extends AppCompatActivity {
                 .document(id)
                 .get()
                 .addOnSuccessListener(doc -> User.expenses.add(new Expense(doc.getData(), doc.getReference().getId())));
-    }
+    }*/
 
     private void initDatePicker() {
         DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int YEAR, int MONTH, int DAY) {
-                String date = makeDateString(YEAR, MONTH + 1, DAY);
+                MONTH += 1;
+                String date = makeDateString(YEAR, MONTH, DAY);
                 btn_date.setText(date);
             }
         };
@@ -153,9 +176,9 @@ public class CreateExpenseActivity extends AppCompatActivity {
     private String getTodaysDate() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
+        int month = calendar.get(Calendar.MONTH) + 1;
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        return makeDateString(year, month + 1, day);
+        return makeDateString(year, month, day);
     }
 
     private String makeDateString(int year, int month, int day) {
