@@ -1,5 +1,7 @@
 package com.example.walletapp;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -14,6 +16,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF018786")));
 
         btn_back = findViewById(R.id.btn_profileBack);
         btn_back.setOnClickListener(click -> finish());

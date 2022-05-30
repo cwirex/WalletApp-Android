@@ -3,6 +3,8 @@ package com.example.walletapp;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -61,7 +63,8 @@ public class CreateExpenseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_expense);
-        getSupportActionBar().hide();
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#FF6200EE")));
+        getSupportActionBar().setTitle("My Expenses");
 
         btn_create = findViewById(R.id.btn_addCREATE);
         btn_back = findViewById(R.id.btn_goBackCREATE);
@@ -103,7 +106,7 @@ public class CreateExpenseActivity extends AppCompatActivity {
                 emptyFields = true;
             } else {
                 try {
-                    cost = String.format(Locale.US,"%.2f", Double.parseDouble(cost.replace(',','.')));
+                    cost = String.format(Locale.US, "%.2f", Double.parseDouble(cost.replace(',', '.')));
                 } catch (Exception e) {
                     eCost.setError("Invalid value!");
                     emptyFields = true;

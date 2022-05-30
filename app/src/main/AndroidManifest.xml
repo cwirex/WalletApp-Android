@@ -11,16 +11,20 @@
         android:theme="@style/Theme.WalletApp">
         <activity
             android:name=".SummaryActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="My Summary" />
         <activity
             android:name=".CreateExpenseActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="My Expenses" />
         <activity
             android:name=".ExpensesActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="My Expenses" />
         <activity
             android:name=".ProfileActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="My Profile" />
         <activity
             android:name=".StartActivity"
             android:exported="true">
@@ -32,10 +36,12 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="myWallet" />
         <activity
             android:name=".RegisterActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:label="MyWallet" />
         <activity
             android:name=".MainActivity"
             android:exported="false" />
