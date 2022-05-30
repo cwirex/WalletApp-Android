@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="50dp"
         android:fontFamily="sans-serif-smallcaps"
-        android:text="myWallet"
+        android:text="@string/mywallet"
         android:textAlignment="center"
         android:textColor="@color/dark"
         android:textSize="36sp"
@@ -30,7 +30,7 @@
             android:layout_marginHorizontal="30dp"
             android:layout_marginVertical="15dp"
             android:padding="6dp"
-            android:text="Expenses"
+            android:text="@string/expenses"
             android:textSize="21sp" />
 
         <Button
@@ -41,7 +41,7 @@
             android:layout_marginVertical="15dp"
             android:backgroundTint="@color/orange"
             android:padding="6dp"
-            android:text="Summary"
+            android:text="@string/summary"
             android:textSize="21sp" />
 
         <Button
@@ -52,7 +52,7 @@
             android:layout_marginVertical="15dp"
             android:backgroundTint="@color/teal_700"
             android:padding="6dp"
-            android:text="Profile"
+            android:text="@string/profile"
             android:textSize="21sp" />
 
         <Button
@@ -63,7 +63,7 @@
             android:layout_marginVertical="15dp"
             android:backgroundTint="@color/grey"
             android:padding="6dp"
-            android:text="Logout"
+            android:text="@string/logout"
             android:textSize="21sp" />
     </LinearLayout>
 

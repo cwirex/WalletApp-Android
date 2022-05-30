@@ -12,7 +12,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginBottom="10dp"
         android:fontFamily="sans-serif-black"
-        android:text="Chart of money spent in each category"
+        android:text="@string/chart_of_money_spent_in_each_category"
         android:textAlignment="center"
         android:textSize="18sp" />
 
@@ -51,6 +51,6 @@
         android:layout_marginBottom="40dp"
         android:layout_weight="0"
         android:backgroundTint="@color/orange"
-        android:text="Go back"
+        android:text="@string/go_back"
         android:textSize="20sp" />
 </LinearLayout>

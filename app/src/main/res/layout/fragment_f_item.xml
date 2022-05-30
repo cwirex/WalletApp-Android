@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:fontFamily="serif-monospace"
-            android:text="JAN 26 2019"
+            android:text="@string/date"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="26sp"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="Tytuł"
+            android:text="@string/title"
             android:textAlignment="center"
             android:textColor="@color/black"
             android:textSize="30sp" />
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:fontFamily="sans-serif-condensed"
-            android:text="Kategoria"
+            android:text="@string/category"
             android:textAlignment="center"
             android:textSize="19sp" />
 
@@ -63,7 +63,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="sans-serif-black"
-            android:text="19.99"
+            android:text="@string/cost"
             android:textAlignment="center"
             android:textColor="@color/cost_red"
             android:textSize="30sp" />
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="40dp"
             android:padding="6dp"
-            android:text="(\nbrak opisu\n)"
+            android:text="@string/description_optional"
             android:textAlignment="center"
             android:textStyle="italic" />
 
@@ -96,7 +96,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_toStartOf="@id/fitem_edit"
-                android:contentDescription="back"
+                android:contentDescription="@string/back"
                 android:src="@drawable/ic_backspace_60"
                 app:tint="@color/purple_700" />
 
@@ -105,7 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:contentDescription="edit"
+                android:contentDescription="@string/edit"
                 android:src="@drawable/ic_edit_42"
                 app:tint="@color/purple_700" />
 
@@ -116,7 +116,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@id/fitem_edit"
-                android:contentDescription="delete"
+                android:contentDescription="@string/delete"
                 android:src="@drawable/ic_baseline_delete_40"
                 app:tint="@color/purple_700" />
         </RelativeLayout>

@@ -11,7 +11,7 @@
         android:layout_marginTop="2dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sort expenses by:"
+        android:text="@string/sort_expenses_by"
         android:textSize="16sp"
         android:textColor="@color/purple_500"
         android:textAlignment="center"/>
@@ -63,21 +63,21 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Name" />
+                    android:text="@string/name" />
 
                 <Button
                     android:id="@+id/toggle_price"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Price" />
+                    android:text="@string/price" />
 
                 <Button
                     android:id="@+id/toggle_date"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date" />
+                    android:text="@string/date" />
             </com.google.android.material.button.MaterialButtonToggleGroup>
         </LinearLayout>
     </HorizontalScrollView>

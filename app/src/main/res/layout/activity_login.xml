@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:fontFamily="sans-serif-black"
-        android:text="Login into account"
+        android:text="@string/login_into_account"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="25sp" />
@@ -34,7 +34,7 @@
             android:autofillHints="emailAddress"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:text="mywallet@wallet.app" />
+            android:text="@string/email_auto" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -55,7 +55,7 @@
             android:autofillHints="password"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:text="Mywallet1" />
+            android:text="@string/password_auto" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
@@ -80,9 +80,8 @@
             android:id="@+id/tv_loginLabel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btn_login"
             android:layout_marginTop="20dp"
-            android:text="Don't have an account?"
+            android:text="@string/don_t_have_an_account"
             android:textAlignment="center"
             android:textSize="15sp" />
 
@@ -91,7 +90,6 @@
             style="?attr/materialButtonOutlinedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_loginLabel"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="20dp"

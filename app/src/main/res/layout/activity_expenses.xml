@@ -25,7 +25,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginVertical="40dp"
         android:layout_weight="0"
@@ -37,7 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="New expense"
+            android:text="@string/new_expense"
             android:textSize="17sp" />
 
         <Button
@@ -46,7 +45,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/grey"
             android:padding="8dp"
-            android:text="Go Back"
+            android:text="@string/go_back"
             android:textSize="17sp" />
     </LinearLayout>
 

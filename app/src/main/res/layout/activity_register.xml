@@ -98,7 +98,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Requirements"
+                android:text="@string/requirements"
                 android:textAlignment="center" />
 
             <LinearLayout
@@ -121,7 +121,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:gravity="center|start"
-                    android:text="Correct email"
+                    android:text="@string/correct_email"
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
@@ -145,7 +145,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:gravity="center|start"
-                    android:text="Password complexity"
+                    android:text="@string/password_complexity"
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
@@ -163,7 +163,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
-                    android:text="length"
+                    android:text="@string/length"
                     android:textColor="@color/incorrect"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -173,7 +173,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
-                    android:text="a-z"
+                    android:text="@string/_a_z"
                     android:textColor="@color/incorrect"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -183,7 +183,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
-                    android:text="A-Z"
+                    android:text="@string/a_z"
                     android:textColor="@color/incorrect"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -193,7 +193,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
-                    android:text="0-9"
+                    android:text="@string/_0_9"
                     android:textColor="@color/incorrect"
                     android:textSize="15sp"
                     android:textStyle="bold" />
@@ -221,7 +221,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
                     android:gravity="center|start"
-                    android:text="Passwords match"
+                    android:text="@string/passwords_match"
                     android:textColor="@android:color/black" />
             </LinearLayout>
         </LinearLayout>

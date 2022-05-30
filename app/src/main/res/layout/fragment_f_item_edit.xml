@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="title"
-                    android:hint="Title"
+                    android:hint="@string/title"
                     android:inputType="text"
                     android:text="" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -46,7 +46,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:autofillHints="cost"
-                    android:hint="Cost"
+                    android:hint="@string/cost"
                     android:inputType="numberDecimal"
                     android:text="" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -63,7 +63,7 @@
                     android:id="@+id/fitemedit_et_descEDIT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Description (optional)"
+                    android:hint="@string/description_optional"
                     android:inputType="text"
                     android:text="" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -80,7 +80,7 @@
                     android:id="@+id/fitemedit_spinner_categoryEDIT"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Category"
+                    android:hint="@string/category"
                     android:inputType="none"
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -98,7 +98,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="20dp"
                     android:layout_weight="0"
-                    android:text="Date"
+                    android:text="@string/date"
                     android:textAlignment="center"
                     android:textSize="17sp" />
 
@@ -118,7 +118,7 @@
                         android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/dark"
-                        android:contentDescription="datePicker"
+                        android:contentDescription="@string/datepicker"
                         android:textSize="20sp" />
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
@@ -136,11 +136,8 @@
                 android:id="@+id/fitemedit_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_toStartOf="@id/fitem_edit"
                 android:layout_weight="1"
-                android:contentDescription="back"
+                android:contentDescription="@string/back"
                 android:src="@drawable/ic_backspace_60"
                 app:tint="@color/purple_700" />
 
@@ -148,9 +145,8 @@
                 android:id="@+id/fitemedit_save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_weight="1"
-                android:contentDescription="edit"
+                android:contentDescription="@string/edit"
                 android:src="@drawable/ic_baseline_check_60"
                 app:tint="@color/purple_700" />
         </LinearLayout>

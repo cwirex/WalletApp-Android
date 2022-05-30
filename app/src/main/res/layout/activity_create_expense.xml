@@ -13,7 +13,7 @@
         android:layout_marginVertical="35dp"
         android:layout_weight="0"
         android:fontFamily="sans-serif-black"
-        android:text="New Expense"
+        android:text="@string/new_expense"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="25sp" />
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:height="40dp"
                 android:autofillHints="title"
-                android:hint="Title"
+                android:hint="@string/title"
                 android:inputType="text"
                 android:text="" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:height="40dp"
                 android:autofillHints="cost"
-                android:hint="Cost"
+                android:hint="@string/cost"
                 android:inputType="numberDecimal"
                 android:text="" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:height="40dp"
-                android:hint="Description (optional)"
+                android:hint="@string/description_optional"
                 android:inputType="text"
                 android:text="" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -95,7 +95,7 @@
                 android:id="@+id/spinner_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Category"
+                android:hint="@string/category"
                 android:inputType="none"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -113,7 +113,7 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="20dp"
                 android:layout_weight="0"
-                android:text="Date"
+                android:text="@string/date"
                 android:textAlignment="center"
                 android:textSize="17sp" />
 
@@ -131,7 +131,7 @@
                     style="?android:spinnerStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:contentDescription="datePicker"
+                    android:contentDescription="@string/datepicker"
                     android:textAlignment="center"
                     android:textColor="@color/dark"
                     android:textSize="20sp" />
@@ -142,7 +142,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_marginHorizontal="20dp"
         android:layout_marginBottom="40dp"
         android:layout_weight="0"
@@ -155,7 +154,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/purple_500"
             android:padding="8dp"
-            android:text="Create"
+            android:text="@string/create"
             android:textSize="17sp" />
 
         <Button
@@ -164,7 +163,7 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/grey"
             android:padding="8dp"
-            android:text="Go back"
+            android:text="@string/go_back"
             android:textSize="17sp" />
     </LinearLayout>
 

@@ -15,7 +15,7 @@
         android:layout_marginTop="35sp"
         android:layout_marginBottom="2dp"
         android:fontFamily="serif-monospace"
-        android:text="Email"
+        android:text="@string/email"
         android:textColor="@color/teal_700"
         android:textSize="22sp"
         android:textStyle="bold" />
@@ -32,7 +32,7 @@
         android:layout_marginTop="20sp"
         android:layout_marginBottom="2dp"
         android:fontFamily="serif-monospace"
-        android:text="Name"
+        android:text="@string/name"
         android:textColor="@color/teal_700"
         android:textSize="22sp"
         android:textStyle="bold" />
@@ -50,7 +50,7 @@
         android:layout_marginTop="20sp"
         android:layout_marginBottom="2dp"
         android:fontFamily="serif-monospace"
-        android:text="Phone number"
+        android:text="@string/phone_number"
         android:textColor="@color/teal_700"
         android:textSize="22sp"
         android:textStyle="bold" />
@@ -67,7 +67,7 @@
         android:layout_marginTop="20sp"
         android:layout_marginBottom="2dp"
         android:fontFamily="serif-monospace"
-        android:text="Bank account"
+        android:text="@string/bank_account"
         android:textColor="@color/teal_700"
         android:textSize="22sp"
         android:textStyle="bold" />
@@ -89,7 +89,7 @@
             android:layout_marginHorizontal="10dp"
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/teal_700"
-            android:text="Go back"
+            android:text="@string/go_back"
             android:textSize="20sp" />
     </LinearLayout>
 

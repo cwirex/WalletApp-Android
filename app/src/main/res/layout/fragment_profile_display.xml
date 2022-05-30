@@ -39,7 +39,7 @@
                 android:layout_margin="2dp"
                 android:src="@drawable/ic_edit_26"
                 app:tint="@color/teal_700"
-                android:contentDescription="Edit" />
+                android:contentDescription="@string/edit" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>
