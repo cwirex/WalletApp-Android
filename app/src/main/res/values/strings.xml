@@ -45,4 +45,7 @@
     <string name="login_into_account">Login into account</string>
     <string name="new_expense">New expense</string>
     <string name="create">Create</string>
+    <string name="web_client_id">563714080525-qp99hs2udoi4etlso9d6c9fuaoa4od85.apps.googleusercontent.com</string>
+    <string name="sign_in_or_sign_up_with_google">Sign-In or Sign-Up with Google</string>
+    <string name="oauth">oAuth</string>
 </resources>

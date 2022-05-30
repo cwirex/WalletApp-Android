@@ -69,36 +69,51 @@
         android:textSize="22sp"
         app:cornerRadius="10dp" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_loginLabel"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginVertical="30dp"
-        android:gravity="bottom"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:text="@string/don_t_have_an_account"
+        android:textAlignment="center"
+        android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/tv_loginLabel"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/don_t_have_an_account"
-            android:textAlignment="center"
-            android:textSize="15sp" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_gotoRegister"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="2dp"
+        android:padding="8dp"
+        android:text="@string/register"
+        android:textSize="22sp"
+        app:cornerRadius="10dp"
+        app:strokeColor="@color/purple_500"
+        app:strokeWidth="2dp" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_gotoRegister"
-            style="?attr/materialButtonOutlinedStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="20dp"
-            android:padding="8dp"
-            android:text="@string/register"
-            android:textSize="22sp"
-            app:cornerRadius="10dp"
-            app:strokeColor="@color/purple_500"
-            app:strokeWidth="2dp" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tv_signInLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:text="@string/sign_in_or_sign_up_with_google"
+        android:textAlignment="center"
+        android:textSize="15sp" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_google"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="2dp"
+        android:backgroundTint="@color/purple_700_lowOpacity"
+        android:padding="8dp"
+        android:text="@string/oauth"
+        android:textColor="@color/purple_700"
+        android:textSize="20sp"
+        app:cornerRadius="10dp"
+        app:strokeColor="@color/purple_700"
+        app:strokeWidth="2dp" />
 </LinearLayout>
