@@ -2,27 +2,32 @@ package com.example.walletapp;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
 public class SummaryActivity extends AppCompatActivity {
     ArrayList<PieEntry> pieEntries;
-    ArrayList<BarEntry> barEntries;
     private PieChart pieChart;
-    private BarChart barChart;
+//    ArrayList<BarEntry> barEntries;
+//    private BarChart barChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,16 +38,12 @@ public class SummaryActivity extends AppCompatActivity {
         pieEntries = new ArrayList<>();
         loadPieChart();
 
-        barChart = findViewById(R.id.barChart);
-        barEntries = new ArrayList<>();
-        loadBarChart();
-    }
+//        barChart = findViewById(R.id.barChart);
+//        barEntries = new ArrayList<>();
+//        loadBarChart();
 
-    private void loadBarChart() {
-        LocalDateTime now = LocalDateTime.now();
-        for(Expense e : User.expenses){
-            //todo
-        }
+        Button btn_back = findViewById(R.id.btn_summaryBack);
+        btn_back.setOnClickListener(l -> finish());
     }
 
     private void loadPieChart() {
@@ -75,7 +76,6 @@ public class SummaryActivity extends AppCompatActivity {
         float sum = hashMap.get("Bill")+ hashMap.get("Gas")+ hashMap.get("Food")+ hashMap.get("Holidays")+other;
         displayPieChart(sum);
     }
-
     private void displayPieChart(float total) {
         PieDataSet pieDataSet = new PieDataSet(pieEntries, "");
         pieDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
@@ -88,7 +88,39 @@ public class SummaryActivity extends AppCompatActivity {
         pieChart.getDescription().setEnabled(false);
         pieChart.setCenterText(String.format(Locale.US, "Total\n%.2f", total));
         pieChart.setCenterTextSize(19f);
-        pieChart.animateXY(1000, 1000);
+        pieChart.animateXY(1200, 1200);
         pieChart.animate();
     }
+
+//    private void displayBarChart() {
+//        BarDataSet barDataSet = new BarDataSet(barEntries, "expenses");
+//        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+//        barDataSet.setValueTextColor(Color.BLACK);
+//        barDataSet.setValueTextSize(16f);
+//        BarData bardata = new BarData(barDataSet);
+//
+//        barChart.setFitBars(true);
+//        barChart.setData(bardata);
+//        barChart.getDescription().setText("some text");
+//    }
+//
+//    private void loadBarChart() {
+//        int P = 30;
+//        LocalDateTime now = LocalDateTime.now();
+//        Float[] history = new Float[P];
+//        for(int i = 0; i < P; i++) history[i] = 0f;
+//        for(Expense e : User.expenses){
+//            long days_between = Duration.between(e.dateTime, now).toDays();
+//            if(days_between < P){
+//                history[(int) days_between] += Float.parseFloat(e.cost);
+//            }
+//        }
+//        for(int i = 0; i < P; i++){
+//            if(history[i] > 0)
+//                barEntries.add(new BarEntry(i, history[i]));
+//        }
+//        displayBarChart();
+//    }
+//
+
 }
