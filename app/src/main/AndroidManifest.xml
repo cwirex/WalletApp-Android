@@ -10,23 +10,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WalletApp">
         <activity
-            android:name=".SummaryActivity"
+            android:name=".summary.SummaryActivity"
             android:exported="false"
             android:label="My Summary" />
         <activity
-            android:name=".CreateExpenseActivity"
+            android:name=".expense.CreateExpenseActivity"
             android:exported="false"
             android:label="My Expenses" />
         <activity
-            android:name=".ExpensesActivity"
+            android:name=".expense.ExpensesActivity"
             android:exported="false"
             android:label="My Expenses" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".profile.ProfileActivity"
             android:exported="false"
             android:label="My Profile" />
         <activity
-            android:name=".StartActivity"
+            android:name=".auth.StartActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,11 +35,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".auth.LoginActivity"
             android:exported="false"
             android:label="myWallet" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".auth.RegisterActivity"
             android:exported="false"
             android:label="MyWallet" />
         <activity

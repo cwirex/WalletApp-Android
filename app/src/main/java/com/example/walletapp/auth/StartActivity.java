@@ -1,88 +1,78 @@
-package com.example.walletapp;
+package com.example.walletapp.auth;
 
 import static android.content.ContentValues.TAG;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.walletapp.auth.LoginActivity;
+import com.example.walletapp.DAO;
 import com.example.walletapp.expense.Expense;
-import com.example.walletapp.expense.ExpensesActivity;
-import com.example.walletapp.profile.ProfileActivity;
-import com.example.walletapp.summary.SummaryActivity;
+import com.example.walletapp.MainActivity;
+import com.example.walletapp.R;
+import com.example.walletapp.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-public class MainActivity extends AppCompatActivity {
-
+public class StartActivity extends AppCompatActivity {
     private FirebaseAuth auth;
-    private Button btn_logout, btn_profile, btn_expenses, btn_summary;
-    private ProgressBar pgBar;
-    private TextView pgBackground;
+    private ProgressBar progressBar;
+    private ObjectAnimator animator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_start);
         getSupportActionBar().hide();
 
-        btn_logout = findViewById(R.id.btn_logout);
-        btn_profile = findViewById(R.id.btn_profile);
-        btn_expenses = findViewById(R.id.btn_expense);
-        btn_summary = findViewById(R.id.btn_summary);
+        progressBar = findViewById(R.id.progressStart);
 
-        pgBar = findViewById(R.id.pgMAIN);
-        pgBackground = findViewById(R.id.pgBackgroundMAIN);
+        animator = ObjectAnimator.ofInt(progressBar, "progress", 10000);
         auth = FirebaseAuth.getInstance();
+        FirebaseUser user = auth.getCurrentUser();
+        final Handler handler = new Handler(Looper.getMainLooper());
 
-        btn_logout.setOnClickListener(click -> {
-            auth.signOut();
-            User.UID = "";
-            Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        if (user == null) {
+            Intent intent;
+            intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();
-        });
-
-        btn_profile.setOnClickListener(click -> {
-            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
-            startActivity(intent);
-        });
-
-        btn_expenses.setOnClickListener(click -> {
-            Intent intent = new Intent(getApplicationContext(), ExpensesActivity.class);
-            startActivity(intent);
-        });
-
-        btn_summary.setOnClickListener(click -> {
-            Intent intent = new Intent(getApplicationContext(), SummaryActivity.class);
-            startActivity(intent);
-        });
-
-
-        FirebaseUser user = auth.getCurrentUser();
-        assert user != null;
-        String UID = user.getUid();
-        if (!User.UID.equals(UID)) {
-            User.UID = UID;
-            getUserData(user.getUid());
+        } else {
+            if (!User.UID.equals(user.getUid())) {
+                handler.postDelayed(() -> {
+                    animator.setDuration(2000);
+                    animator.setInterpolator(new DecelerateInterpolator(1.5f));
+                    animator.start();
+                }, 300);
+                handler.postDelayed(() -> {
+                    Intent intent;
+                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }, 2300);
+                User.UID = user.getUid();
+                getUserData(user.getUid());
+                getUserExpenses(user.getUid());
+            } else {
+                Intent intent;
+                intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            }
         }
     }
 
     private void getUserData(String UID) {
-        pgBar.setVisibility(View.VISIBLE);
-        pgBackground.setVisibility(View.VISIBLE);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection(DAO.Users)
                 .document(UID)
@@ -101,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                     }
-                    getUserExpenses(UID);
                 });
     }
 
@@ -117,8 +106,6 @@ public class MainActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
                         User.expenses.add(new Expense(doc.getData(), doc.getReference().getId()));
                     }
-                    pgBar.setVisibility(View.GONE);
-                    pgBackground.setVisibility(View.GONE);
                 });
     }
 }
