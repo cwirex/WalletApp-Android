@@ -51,7 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String password = ePass.getText().toString();
                 String confirm = ePassConf.getText().toString();
-                if(password.length() >= 6){
+                if (password.length() >= 6) {
                     inputPass.setCounterEnabled(false);
                 }
                 complexPassword = validateComplexity(password);
@@ -61,7 +61,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                if(ePass.getText().toString().length() < 6){
+                if (ePass.getText().toString().length() < 6) {
                     inputPass.setCounterEnabled(true);
                 }
             }
@@ -126,7 +126,7 @@ public class RegisterActivity extends AppCompatActivity {
 //                        User.name = hashMap.get("name");
                         Toast.makeText(this, "Registered!", Toast.LENGTH_SHORT).show();
 
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), StartActivity.class);
                         startActivity(intent);
                         finish();
                     })
@@ -159,7 +159,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private boolean validateMatch(String s1, String s2) {
-        if(!complexPassword)
+        if (!complexPassword)
             return false;
         boolean valid = true;
         if (!s1.equals(s2)) {

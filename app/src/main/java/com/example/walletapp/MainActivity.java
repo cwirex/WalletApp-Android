@@ -19,8 +19,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
-import java.util.Objects;
-
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             auth.signOut();
             User.UID = "";
             Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(), StartActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();
         });
@@ -71,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
         assert user != null;
         String UID = user.getUid();
-        if (!Objects.equals(User.UID, UID)) {
+        if (!User.UID.equals(UID)) {
             User.UID = UID;
             getUserData(user.getUid());
         }
