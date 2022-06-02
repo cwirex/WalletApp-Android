@@ -4,6 +4,8 @@ public abstract class DAO {
 
     public static final String Users = "users";
     public static final String Expenses = "expenses";
+    public static final String Groups = "groups";
+
     public abstract static class USERS {
         public static final String email = "email";
         public static final String name = "name";
@@ -26,4 +28,11 @@ public abstract class DAO {
         public static final String gas = "Gas";
         public static final String holidays = "Holidays";
     }
+
+    public abstract static class GROUPS {
+        public static final String users = "users";
+
+    }
+
+
 }

@@ -10,6 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WalletApp">
         <activity
+            android:name=".groups.GroupsActivity"
+            android:exported="false"
+            android:label="My Groups"/>
+        <activity
             android:name=".summary.SummaryActivity"
             android:exported="false"
             android:label="My Summary" />
