@@ -3,7 +3,7 @@ package com.example.walletapp;
 import java.util.HashMap;
 import java.util.Map;
 
-public class UserDTO {
+public class UserDTO {      // unused
     public String bank = "";
     public String email = "";
     public String name = "";

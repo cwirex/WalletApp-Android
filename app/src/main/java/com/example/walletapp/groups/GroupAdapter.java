@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import com.example.walletapp.Group;
 import com.example.walletapp.R;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class GroupAdapter extends ArrayAdapter<Group> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_category, parent, false);
         }
         TextView tv = convertView.findViewById(R.id.tv_categoryName);
-        String name = group.id;
+        String name = group.getId();
         tv.setText(name);
         return convertView;
     }

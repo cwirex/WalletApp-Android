@@ -33,8 +33,6 @@ public class ProfileActivity extends AppCompatActivity {
     private void loadFrames() {
         Integer[] f_ids = {R.id.frameEmail, R.id.frameName, R.id.framePhone, R.id.frameBank};
         String[] f_names = {DBS.USERS.email, DBS.USERS.name, DBS.USERS.phone, DBS.USERS.bank};
-//        UserDTO currentUser = UserDAO.getInstance().getCurrentUser().getValue();      // new approach
-//        String[] f_vals = {currentUser.email, currentUser.name, currentUser.phone, currentUser.bank};
         String[] f_vals = {UserData.email, UserData.name, UserData.phone, UserData.bank};
         Boolean[] f_bool = {false, true, true, true};
 

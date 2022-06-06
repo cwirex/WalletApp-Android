@@ -16,6 +16,7 @@ import com.example.walletapp.DBS;
 import com.example.walletapp.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -37,7 +38,7 @@ public class GroupActionFragment extends Fragment {
     }
 
     public interface OnFragmentActionListener{
-        void notifyGroupAdded(Group group);
+        void notifyGroupAdded(String groupName);
         void notifyUserFound(GroupUser groupUser);
     }
 
@@ -74,13 +75,13 @@ public class GroupActionFragment extends Fragment {
         //todo: use smaller icons
         if (target.equals("group")) {       // Fragment -> NewGroupFragment
             submit.setOnClickListener(l -> {
-                String strVal = editText.getText().toString();
-                if (strVal.isEmpty()) {
+                String str = editText.getText().toString();
+                if (str.isEmpty()) {
                     editText.setError("Enter name for a group");
                 } else {                                         // group_name is valid
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     db.collection(DBS.Groups)
-                            .document(strVal)
+                            .document(str)
                             .get()
                             .addOnCompleteListener(task -> {        // check if groups isn't already defined
                                 if (task.getResult().exists()) {    // group name take, don't create it.
@@ -88,13 +89,14 @@ public class GroupActionFragment extends Fragment {
                                     Toast.makeText(getContext(), "Name already taken", Toast.LENGTH_SHORT).show();
                                 } else {                                // new group name, so can be created
                                     HashMap<String, Object> dataset = new HashMap<>();
-                                    dataset.put("new_group", true);
+                                    dataset.put(DBS.GROUPS.isnew, true);
+                                    dataset.put(DBS.GROUPS.owner, FirebaseAuth.getInstance().getUid());
                                     db.collection(DBS.Groups)
-                                            .document(strVal)
+                                            .document(str)
                                             .set(dataset)
                                             .addOnSuccessListener(t -> {            // Group created
                                                 Toast.makeText(getContext(), "Created new group!", Toast.LENGTH_SHORT).show();
-                                                fragmentListener.notifyGroupAdded(new Group(strVal));
+                                                fragmentListener.notifyGroupAdded(str);
                                                 deleteFragment();
                                             })
                                             .addOnFailureListener(f -> {            // error
