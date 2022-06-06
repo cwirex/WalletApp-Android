@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.walletapp.DBS;
 import com.example.walletapp.R;
-import com.example.walletapp.UserData;
+import com.example.walletapp.auth.UserData;
 import com.example.walletapp.expense.Expense;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;

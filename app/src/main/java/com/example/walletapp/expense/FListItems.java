@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.walletapp.DBS;
 import com.example.walletapp.R;
-import com.example.walletapp.UserData;
+import com.example.walletapp.auth.UserData;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;

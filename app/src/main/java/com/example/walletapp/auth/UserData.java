@@ -1,4 +1,4 @@
-package com.example.walletapp;
+package com.example.walletapp.auth;
 
 import com.example.walletapp.expense.Expense;
 

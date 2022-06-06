@@ -95,7 +95,7 @@ public class GroupActionFragment extends Fragment {
                                             .document(str)
                                             .set(dataset)
                                             .addOnSuccessListener(t -> {            // Group created
-                                                Toast.makeText(getContext(), "Created new group!", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(getContext(), "Created!", Toast.LENGTH_SHORT).show();
                                                 fragmentListener.notifyGroupAdded(str);
                                                 deleteFragment();
                                             })

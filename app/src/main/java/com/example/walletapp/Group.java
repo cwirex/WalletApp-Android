@@ -7,8 +7,8 @@ import java.util.Map;
 public class Group {
     public boolean new_group;
     public String owner;
-    public ArrayList<String> users;
     private String id;
+    public ArrayList<String> users;
 
     public Group() {
 

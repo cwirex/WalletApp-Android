@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.walletapp.auth.LoginActivity;
+import com.example.walletapp.auth.UserData;
 import com.example.walletapp.expense.Expense;
 import com.example.walletapp.expense.ExpensesActivity;
 import com.example.walletapp.groups.GroupsActivity;

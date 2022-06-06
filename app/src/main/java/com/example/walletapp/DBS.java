@@ -33,6 +33,9 @@ public abstract class DBS {
         public static final String users = "users";
         public static final String isnew = "new_group";
         public static final String owner = "owner";
+        public abstract static class USERS{
+            public static final String id = "userId";
+        }
 
     }
 

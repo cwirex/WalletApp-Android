@@ -1,16 +1,5 @@
 package com.example.walletapp.groups;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.walletapp.Group;
-import com.example.walletapp.GroupDAO;
-import com.example.walletapp.MainActivity;
-import com.example.walletapp.R;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,19 +8,32 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.walletapp.Group;
+import com.example.walletapp.DAO;
+import com.example.walletapp.R;
+import com.example.walletapp.User;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 
 public class GroupsActivity extends AppCompatActivity implements GroupActionFragment.OnFragmentActionListener, GroupUserAdapter.ItemClickListener {
 
     Button btn_addUser, btn_newGroup;
     FrameLayout frame;
-    GroupAdapter groupAdapter;
-    GroupUserAdapter userAdapter;
-    AutoCompleteTextView spinner_group;
-    ArrayList<Group> groups;
+
+    ArrayList<Group> groupsList;
+    GroupAdapter groupsAdapter;
+    AutoCompleteTextView atv_groupsSpinner;
     private Group currentGroup;
 
-    RecyclerView recyclerView;
+    ArrayList<GroupUser> usersList;
+    GroupUserAdapter usersAdapter;
+    RecyclerView usersRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,36 +43,39 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
         btn_addUser = findViewById(R.id.btn_adduserGROUPS);
         btn_newGroup = findViewById(R.id.btn_addgroupGROUPS);
         frame = findViewById(R.id.frameGroups);
-        spinner_group = findViewById(R.id.spinner_groups);
 
-        groups = GroupDAO.getInstance().getCurrentUserGroupsOwned();
-        groupAdapter = new GroupAdapter(this, groups);
-        spinner_group.setAdapter(groupAdapter);
+        // groups
+        atv_groupsSpinner = findViewById(R.id.spinner_groups);
+        groupsList = DAO.getInstance().getCurrentUserGroupsOwned();
+        groupsAdapter = new GroupAdapter(this, groupsList);
+        atv_groupsSpinner.setAdapter(groupsAdapter);
 
-        recyclerView = findViewById(R.id.users_recycler);
+        // users
+        usersRecyclerView = findViewById(R.id.users_recycler);
+        usersList = new ArrayList<>();
         setupUserAdapter();
 
         btn_newGroup.setOnClickListener(l -> {
-            GroupActionFragment fragment = GroupActionFragment.newInstance("group", "Group name (unique)");
+            GroupActionFragment fragment = GroupActionFragment.newInstance("group", "Group Name (unique)");
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frameGroups, fragment);
             ft.commit();
         });
 
         btn_addUser.setOnClickListener(l -> {
-            GroupActionFragment fragment = GroupActionFragment.newInstance("user", "UserData email (existing)");
+            GroupActionFragment fragment = GroupActionFragment.newInstance("user", "User Email (existing)");
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frameGroups, fragment);
             ft.commit();
         });
 
-        GroupDAO.getInstance().groups.observe(this, updatedGroups -> {
-            groups.clear();
-            groups.addAll(GroupDAO.getInstance().getCurrentUserGroupsOwned());
-            groupAdapter.notifyDataSetChanged();
+        DAO.getInstance().groups.observe(this, updatedGroups -> {
+            groupsList.clear();
+            groupsList.addAll(DAO.getInstance().getCurrentUserGroupsOwned());
+            groupsAdapter.notifyDataSetChanged();
         });
 
-        spinner_group.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        atv_groupsSpinner.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String item = parent.getItemAtPosition(position).toString();
@@ -80,32 +85,59 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
     }
 
     private void groupSelected(String gid, int position) {
-        // todo - update ui
         Toast.makeText(GroupsActivity.this, gid, Toast.LENGTH_SHORT).show();
+        currentGroup = groupsAdapter.getItem(position);
+        updateUsersList();
+        // todo - update ui
     }
 
 
     private void setupUserAdapter() {
-//        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        recyclerView.setLayoutManager(horizontalLayoutManager);
-//        userAdapter = new GroupUserAdapter(this, currentGroup.users);
-//        userAdapter.setClickListener(this);
-//        recyclerView.setAdapter(userAdapter);
+        LinearLayoutManager horizontalLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        usersRecyclerView.setLayoutManager(horizontalLayoutManager);
+        usersAdapter = new GroupUserAdapter(this, usersList);
+        usersAdapter.setClickListener(this);
+        usersRecyclerView.setAdapter(usersAdapter);
     }
 
 
     @Override
     public void notifyGroupAdded(String groupName) {
-        // set it as current group?
+        String uid = FirebaseAuth.getInstance().getUid();
+        DAO dao = DAO.getInstance();
+        dao.addGroupToUser(groupName, uid);
+        dao.addUserToGroup(uid, groupName);
+
+        atv_groupsSpinner.setText(groupName, false);
+        for(int i = 0; i < groupsAdapter.getCount(); i++){
+            if(groupsAdapter.getItem(i).getId().equals(groupName)){
+                currentGroup = groupsAdapter.getItem(i);
+                updateUsersList();
+                break;
+            }
+        }
+    }
+
+    private void updateUsersList() {
+        usersList.clear();
+        for(String uid : currentGroup.users){
+            User user = DAO.getInstance().getUserFromId(uid);
+            if(user != null){
+                usersList.add(new GroupUser(uid, user.userData.name));
+            }
+        }
+        usersAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void notifyUserFound(GroupUser groupUser) {
-        //todo: add user to current group
+        DAO.getInstance().addUserToGroup(groupUser.uid, currentGroup.getId());
+        usersList.add(0, groupUser);
+        usersAdapter.notifyItemInserted(0);
     }
 
     @Override
     public void onItemClick(View view, int position) {
-        Toast.makeText(this, "Clicked " + userAdapter.getItem(position).name + " on item position " + position, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, usersAdapter.getItem(position).name, Toast.LENGTH_SHORT).show();
     }
 }

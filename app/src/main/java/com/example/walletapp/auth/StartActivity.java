@@ -14,8 +14,7 @@ import android.widget.ProgressBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.walletapp.DBS;
-import com.example.walletapp.GroupDAO;
-import com.example.walletapp.UserData;
+import com.example.walletapp.DAO;
 import com.example.walletapp.expense.Expense;
 import com.example.walletapp.MainActivity;
 import com.example.walletapp.R;
@@ -50,7 +49,7 @@ public class StartActivity extends AppCompatActivity {
             finish();
         } else {
             if (!UserData.UID.equals(user.getUid())) {
-                GroupDAO.getInstance();
+                DAO.getInstance();
                 UserData.UID = user.getUid();
 
                 handler.postDelayed(() -> {

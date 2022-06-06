@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.walletapp.DBS;
-import com.example.walletapp.UserData;
+import com.example.walletapp.auth.UserData;
 import com.example.walletapp.R;
 
 public class ProfileActivity extends AppCompatActivity {
