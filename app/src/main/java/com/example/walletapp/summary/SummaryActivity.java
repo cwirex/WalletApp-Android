@@ -7,9 +7,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.walletapp.DAO;
+import com.example.walletapp.DBS;
 import com.example.walletapp.R;
-import com.example.walletapp.User;
+import com.example.walletapp.UserData;
 import com.example.walletapp.expense.Expense;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -42,12 +42,12 @@ public class SummaryActivity extends AppCompatActivity {
 
     private void loadPieChart() {
         HashMap<String, Float> hashMap = new HashMap<>();
-        hashMap.put(DAO.CATEGORIES.bill, 0f);
-        hashMap.put(DAO.CATEGORIES.food, 0f);
-        hashMap.put(DAO.CATEGORIES.gas, 0f);
-        hashMap.put(DAO.CATEGORIES.holidays, 0f);
+        hashMap.put(DBS.CATEGORIES.bill, 0f);
+        hashMap.put(DBS.CATEGORIES.food, 0f);
+        hashMap.put(DBS.CATEGORIES.gas, 0f);
+        hashMap.put(DBS.CATEGORIES.holidays, 0f);
         float other = 0f;
-        for (Expense e : User.expenses) {
+        for (Expense e : UserData.expenses) {
             try {
                 float temp = hashMap.get(e.category);
                 temp += Float.parseFloat(e.cost);
@@ -102,7 +102,7 @@ public class SummaryActivity extends AppCompatActivity {
 //        LocalDateTime now = LocalDateTime.now();
 //        Float[] history = new Float[P];
 //        for(int i = 0; i < P; i++) history[i] = 0f;
-//        for(Expense e : User.expenses){
+//        for(Expense e : UserData.expenses){
 //            long days_between = Duration.between(e.dateTime, now).toDays();
 //            if(days_between < P){
 //                history[(int) days_between] += Float.parseFloat(e.cost);

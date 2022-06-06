@@ -8,7 +8,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.walletapp.DAO;
+import com.example.walletapp.DBS;
 import com.example.walletapp.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -112,17 +112,17 @@ public class LoginActivity extends AppCompatActivity {
                                 else
                                     name = account.getDisplayName();
                                 name = name.substring(0, 1).toUpperCase(Locale.ROOT) + name.substring(1);
-                                hashMap.put(DAO.USERS.email, email);
-                                hashMap.put(DAO.USERS.name, name);
+                                hashMap.put(DBS.USERS.email, email);
+                                hashMap.put(DBS.USERS.name, name);
 
                                 FirebaseFirestore.getInstance()
-                                        .collection(DAO.Users)
+                                        .collection(DBS.Users)
                                         .document(auth.getUid())
                                         .get()
                                         .addOnSuccessListener(doc -> {
                                             if (!doc.exists()) {
                                                 FirebaseFirestore.getInstance()
-                                                        .collection(DAO.Users)
+                                                        .collection(DBS.Users)
                                                         .document(auth.getUid())
                                                         .set(hashMap);
                                                 Toast.makeText(this, "Signed up!", Toast.LENGTH_SHORT).show();

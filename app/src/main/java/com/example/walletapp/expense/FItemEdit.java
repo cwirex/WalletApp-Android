@@ -19,9 +19,9 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.walletapp.DAO;
+import com.example.walletapp.DBS;
 import com.example.walletapp.R;
-import com.example.walletapp.User;
+import com.example.walletapp.UserData;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -61,7 +61,7 @@ public class FItemEdit extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             expenseId = getArguments().getString(ARG);
-            for (Expense e : User.expenses)
+            for (Expense e : UserData.expenses)
                 if (e.id.equals(expenseId))
                     expense = e;
         }
@@ -125,23 +125,23 @@ public class FItemEdit extends Fragment {
             if (!emptyFields) {
                 LocalDateTime dateTime = myDateToLocalDateTime(date);
                 HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put(DAO.EXPENSES.title, title);
-                hashMap.put(DAO.EXPENSES.cost, cost);
-                hashMap.put(DAO.EXPENSES.category, cat);
-                hashMap.put(DAO.EXPENSES.description, desc);
-                hashMap.put(DAO.EXPENSES.date_str, date);
-                hashMap.put(DAO.EXPENSES.datetime, dateTime);
+                hashMap.put(DBS.EXPENSES.title, title);
+                hashMap.put(DBS.EXPENSES.cost, cost);
+                hashMap.put(DBS.EXPENSES.category, cat);
+                hashMap.put(DBS.EXPENSES.description, desc);
+                hashMap.put(DBS.EXPENSES.date_str, date);
+                hashMap.put(DBS.EXPENSES.datetime, dateTime);
 
-                User.expenses.remove(expense);
+                UserData.expenses.remove(expense);
                 expense = new Expense(hashMap, expenseId);
-                User.expenses.add(expense);
+                UserData.expenses.add(expense);
 
                 String UID = FirebaseAuth.getInstance().getUid();
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                db.collection(DAO.Users)
+                db.collection(DBS.Users)
                         .document(UID)
-                        .collection(DAO.Expenses)
+                        .collection(DBS.Expenses)
                         .document(expenseId)
                         .update(hashMap)
                         .addOnSuccessListener(s -> {

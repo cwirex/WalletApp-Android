@@ -1,6 +1,6 @@
 package com.example.walletapp;
 
-public abstract class DAO {
+public abstract class DBS {
 
     public static final String Users = "users";
     public static final String Expenses = "expenses";

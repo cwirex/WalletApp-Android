@@ -8,9 +8,9 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.walletapp.DAO;
+import com.example.walletapp.DBS;
+import com.example.walletapp.UserData;
 import com.example.walletapp.R;
-import com.example.walletapp.User;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -32,8 +32,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void loadFrames() {
         Integer[] f_ids = {R.id.frameEmail, R.id.frameName, R.id.framePhone, R.id.frameBank};
-        String[] f_names = {DAO.USERS.email, DAO.USERS.name, DAO.USERS.phone, DAO.USERS.bank};
-        String[] f_vals = {User.email, User.name, User.phone, User.bank};
+        String[] f_names = {DBS.USERS.email, DBS.USERS.name, DBS.USERS.phone, DBS.USERS.bank};
+//        UserDTO currentUser = UserDAO.getInstance().getCurrentUser().getValue();      // new approach
+//        String[] f_vals = {currentUser.email, currentUser.name, currentUser.phone, currentUser.bank};
+        String[] f_vals = {UserData.email, UserData.name, UserData.phone, UserData.bank};
         Boolean[] f_bool = {false, true, true, true};
 
         for (int i = 0; i < f_ids.length; i++) {

@@ -14,9 +14,9 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.walletapp.DAO;
+import com.example.walletapp.DBS;
 import com.example.walletapp.R;
-import com.example.walletapp.User;
+import com.example.walletapp.UserData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -66,7 +66,7 @@ public class ProfileEditFragment extends Fragment {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
                 String UID = FirebaseAuth.getInstance().getUid();
                 assert UID != null;
-                db.collection(DAO.Users)
+                db.collection(DBS.Users)
                         .document(UID)
                         .update(strContext, s1)
                         .addOnFailureListener(l -> Log.w(TAG, "DB update failed"))
@@ -92,17 +92,17 @@ public class ProfileEditFragment extends Fragment {
 
     private void updateProfile(String newValue, String strContext) {
         switch (strContext) {
-            case DAO.USERS.name:
-                User.name = newValue;
+            case DBS.USERS.name:
+                UserData.name = newValue;
                 break;
-            case DAO.USERS.email:
-                User.email = newValue;
+            case DBS.USERS.email:
+                UserData.email = newValue;
                 break;
-            case DAO.USERS.phone:
-                User.phone = newValue;
+            case DBS.USERS.phone:
+                UserData.phone = newValue;
                 break;
-            case DAO.USERS.bank:
-                User.bank = newValue;
+            case DBS.USERS.bank:
+                UserData.bank = newValue;
                 break;
         }
     }

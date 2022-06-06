@@ -1,6 +1,6 @@
 package com.example.walletapp.expense;
 
-import com.example.walletapp.DAO;
+import com.example.walletapp.DBS;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -16,11 +16,11 @@ public class Expense {
     public String id;
 
     public Expense(Map<String, Object> data, String id) {
-        this.title = (String) data.getOrDefault(DAO.EXPENSES.title, "");
-        this.cost = (String) data.getOrDefault(DAO.EXPENSES.cost, "");
-        this.category = (String) data.getOrDefault(DAO.EXPENSES.category, "");
-        this.description = (String) data.getOrDefault(DAO.EXPENSES.description, "");
-        this.date = (String) data.getOrDefault(DAO.EXPENSES.date_str, "");
+        this.title = (String) data.getOrDefault(DBS.EXPENSES.title, "");
+        this.cost = (String) data.getOrDefault(DBS.EXPENSES.cost, "");
+        this.category = (String) data.getOrDefault(DBS.EXPENSES.category, "");
+        this.description = (String) data.getOrDefault(DBS.EXPENSES.description, "");
+        this.date = (String) data.getOrDefault(DBS.EXPENSES.date_str, "");
         this.id = id;
         try {
             HashMap<String, Object> dt = (HashMap<String, Object>) data.get("datetime");
@@ -35,7 +35,7 @@ public class Expense {
         } catch (Exception exception) {
             this.dateTime = LocalDateTime.MIN;
             try {
-                this.dateTime = (LocalDateTime) data.getOrDefault(DAO.EXPENSES.datetime, "default");
+                this.dateTime = (LocalDateTime) data.getOrDefault(DBS.EXPENSES.datetime, "default");
             } catch (ClassCastException e) {
                 // handled
             }

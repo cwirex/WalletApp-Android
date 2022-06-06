@@ -13,11 +13,12 @@ import android.widget.ProgressBar;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.walletapp.DAO;
+import com.example.walletapp.DBS;
+import com.example.walletapp.UserDAO;
+import com.example.walletapp.UserData;
 import com.example.walletapp.expense.Expense;
 import com.example.walletapp.MainActivity;
 import com.example.walletapp.R;
-import com.example.walletapp.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -48,7 +49,8 @@ public class StartActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            if (!User.UID.equals(user.getUid())) {
+            UserDAO.getInstance();
+            if (!UserData.UID.equals(user.getUid())) {
                 handler.postDelayed(() -> {
                     animator.setDuration(2000);
                     animator.setInterpolator(new DecelerateInterpolator(1.5f));
@@ -60,7 +62,7 @@ public class StartActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }, 2300);
-                User.UID = user.getUid();
+                UserData.UID = user.getUid();
                 getUserData(user.getUid());
                 getUserExpenses(user.getUid());
             } else {
@@ -74,7 +76,7 @@ public class StartActivity extends AppCompatActivity {
 
     private void getUserData(String UID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(DAO.Users)
+        db.collection(DBS.Users)
                 .document(UID)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -82,10 +84,10 @@ public class StartActivity extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             try {
-                                User.email = document.getString(DAO.USERS.email);
-                                User.name = document.getString(DAO.USERS.name);
-                                User.phone = document.getString(DAO.USERS.phone);
-                                User.bank = document.getString(DAO.USERS.bank);
+                                UserData.email = document.getString(DBS.USERS.email);
+                                UserData.name = document.getString(DBS.USERS.name);
+                                UserData.phone = document.getString(DBS.USERS.phone);
+                                UserData.bank = document.getString(DBS.USERS.bank);
                             } catch (RuntimeException exception) {
                                 Log.e(TAG, "getUserProfile() caused: " + exception.getCause().toString());
                             }
@@ -95,16 +97,16 @@ public class StartActivity extends AppCompatActivity {
     }
 
     private void getUserExpenses(String UID) {
-        User.expenses.clear();
+        UserData.expenses.clear();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(DAO.Users)
+        db.collection(DBS.Users)
                 .document(UID)
-                .collection(DAO.Expenses)
-                .orderBy(DAO.EXPENSES.title)
+                .collection(DBS.Expenses)
+                .orderBy(DBS.EXPENSES.title)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                        User.expenses.add(new Expense(doc.getData(), doc.getReference().getId()));
+                        UserData.expenses.add(new Expense(doc.getData(), doc.getReference().getId()));
                     }
                 });
     }

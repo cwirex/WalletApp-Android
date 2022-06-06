@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         btn_logout.setOnClickListener(click -> {
             auth.signOut();
-            User.UID = "";
+            UserData.UID = "";
             Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
         assert user != null;
         String UID = user.getUid();
-        if (!User.UID.equals(UID)) {
-            User.UID = UID;
+        if (!UserData.UID.equals(UID)) {
+            UserData.UID = UID;
             getUserData(user.getUid());
         }
     }
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         pgBar.setVisibility(View.VISIBLE);
         pgBackground.setVisibility(View.VISIBLE);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(DAO.Users)
+        db.collection(DBS.Users)
                 .document(UID)
                 .get()
                 .addOnCompleteListener(task -> {
@@ -96,10 +96,10 @@ public class MainActivity extends AppCompatActivity {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             try {
-                                User.email = document.getString(DAO.USERS.email);
-                                User.name = document.getString(DAO.USERS.name);
-                                User.phone = document.getString(DAO.USERS.phone);
-                                User.bank = document.getString(DAO.USERS.bank);
+                                UserData.email = document.getString(DBS.USERS.email);
+                                UserData.name = document.getString(DBS.USERS.name);
+                                UserData.phone = document.getString(DBS.USERS.phone);
+                                UserData.bank = document.getString(DBS.USERS.bank);
                             } catch (RuntimeException exception) {
                                 Log.e(TAG, "getUserProfile() caused: " + exception.getCause().toString());
                             }
@@ -110,16 +110,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getUserExpenses(String UID) {
-        User.expenses.clear();
+        UserData.expenses.clear();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection(DAO.Users)
+        db.collection(DBS.Users)
                 .document(UID)
-                .collection(DAO.Expenses)
-                .orderBy(DAO.EXPENSES.title)
+                .collection(DBS.Expenses)
+                .orderBy(DBS.EXPENSES.title)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     for (QueryDocumentSnapshot doc : queryDocumentSnapshots) {
-                        User.expenses.add(new Expense(doc.getData(), doc.getReference().getId()));
+                        UserData.expenses.add(new Expense(doc.getData(), doc.getReference().getId()));
                     }
                     pgBar.setVisibility(View.GONE);
                     pgBackground.setVisibility(View.GONE);

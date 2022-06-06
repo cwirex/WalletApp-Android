@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.walletapp.DAO;
+import com.example.walletapp.DBS;
 import com.example.walletapp.R;
-import com.example.walletapp.User;
+import com.example.walletapp.UserData;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -124,23 +124,23 @@ public class CreateExpenseActivity extends AppCompatActivity {
                 LocalDateTime dateTime = myDateToLocalDateTime(date);
 
                 HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put(DAO.EXPENSES.title, title);
-                hashMap.put(DAO.EXPENSES.cost, cost);
-                hashMap.put(DAO.EXPENSES.category, cat);
-                hashMap.put(DAO.EXPENSES.description, desc);
-                hashMap.put(DAO.EXPENSES.date_str, date);
-                hashMap.put(DAO.EXPENSES.datetime, dateTime);
+                hashMap.put(DBS.EXPENSES.title, title);
+                hashMap.put(DBS.EXPENSES.cost, cost);
+                hashMap.put(DBS.EXPENSES.category, cat);
+                hashMap.put(DBS.EXPENSES.description, desc);
+                hashMap.put(DBS.EXPENSES.date_str, date);
+                hashMap.put(DBS.EXPENSES.datetime, dateTime);
 
                 String UID = FirebaseAuth.getInstance().getUid();
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-                db.collection(DAO.Users)
+                db.collection(DBS.Users)
                         .document(UID)
-                        .collection(DAO.Expenses)
+                        .collection(DBS.Expenses)
                         .add(hashMap)
                         .addOnSuccessListener(s -> {
                             Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
-                            User.expenses.add(new Expense(hashMap, s.getId()));
+                            UserData.expenses.add(new Expense(hashMap, s.getId()));
                             Intent intent = new Intent(this, ExpensesActivity.class);
                             startActivity(intent);
                             finish();
@@ -156,7 +156,7 @@ public class CreateExpenseActivity extends AppCompatActivity {
                 .collection("expenses")
                 .document(id)
                 .get()
-                .addOnSuccessListener(doc -> User.expenses.add(new Expense(doc.getData(), doc.getReference().getId())));
+                .addOnSuccessListener(doc -> UserData.expenses.add(new Expense(doc.getData(), doc.getReference().getId())));
     }*/
 
     private void initDatePicker() {

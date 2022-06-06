@@ -12,7 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.walletapp.DAO;
+import com.example.walletapp.DBS;
 import com.example.walletapp.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -79,7 +79,7 @@ public class GroupActionFragment extends Fragment {
                     editText.setError("Enter name for a group");
                 } else {                                         // group_name is valid
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    db.collection(DAO.Groups)
+                    db.collection(DBS.Groups)
                             .document(strVal)
                             .get()
                             .addOnCompleteListener(task -> {        // check if groups isn't already defined
@@ -89,7 +89,7 @@ public class GroupActionFragment extends Fragment {
                                 } else {                                // new group name, so can be created
                                     HashMap<String, Object> dataset = new HashMap<>();
                                     dataset.put("new_group", true);
-                                    db.collection(DAO.Groups)
+                                    db.collection(DBS.Groups)
                                             .document(strVal)
                                             .set(dataset)
                                             .addOnSuccessListener(t -> {            // Group created
@@ -111,22 +111,22 @@ public class GroupActionFragment extends Fragment {
                     editText.setError("Enter user email");
                 } else {                                                // user_email is valid
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    db.collection(DAO.Users)
+                    db.collection(DBS.Users)
                             .get()
                             .addOnCompleteListener(task -> {            // look for a user
                                 boolean found = false;
                                 for (QueryDocumentSnapshot doc : task.getResult()) {
-                                    if (doc.getString(DAO.USERS.email).equals(strVal)) {
+                                    if (doc.getString(DBS.USERS.email).equals(strVal)) {
                                         found = true;
                                         String tUID = doc.getId();
-                                        String tName = doc.getString(DAO.USERS.name);
+                                        String tName = doc.getString(DBS.USERS.name);
                                         fragmentListener.notifyUserFound(new GroupUser(tUID, tName));    // notify parent: user found
                                         deleteFragment();
                                     }
                                 }
                                 if (!found) {               // notify:  user_email doesn't exist
                                     editText.setError("Enter existing user's email");
-                                    Toast.makeText(getContext(), "User doesn't exist", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "UserData doesn't exist", Toast.LENGTH_SHORT).show();
                                 }
                             });
                 }

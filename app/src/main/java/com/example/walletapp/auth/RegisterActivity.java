@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.walletapp.DAO;
+import com.example.walletapp.DBS;
 import com.example.walletapp.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -113,19 +113,19 @@ public class RegisterActivity extends AppCompatActivity {
             HashMap<String, String> hashMap = new HashMap<>();
             String name = email.substring(0, email.indexOf('@'));
             name = name.substring(0, 1).toUpperCase(Locale.ROOT) + name.substring(1);
-            hashMap.put(DAO.USERS.email, email);
-            hashMap.put(DAO.USERS.name, name);
+            hashMap.put(DBS.USERS.email, email);
+            hashMap.put(DBS.USERS.name, name);
 
             auth.createUserWithEmailAndPassword(email, password)
                     .addOnSuccessListener(success -> {
                         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-                        firestore.collection(DAO.Users)
+                        firestore.collection(DBS.Users)
                                 .document(auth.getUid())
                                 .set(hashMap);
 
-//                        User.UID = auth.getUid();
-//                        User.email = hashMap.get("email");
-//                        User.name = hashMap.get("name");
+//                        UserData.UID = auth.getUid();
+//                        UserData.email = hashMap.get("email");
+//                        UserData.name = hashMap.get("name");
                         Toast.makeText(this, "Registered!", Toast.LENGTH_SHORT).show();
 
                         Intent intent = new Intent(getApplicationContext(), StartActivity.class);

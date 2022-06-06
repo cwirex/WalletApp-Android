@@ -12,9 +12,9 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.walletapp.DAO;
+import com.example.walletapp.DBS;
 import com.example.walletapp.R;
-import com.example.walletapp.User;
+import com.example.walletapp.UserData;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -54,9 +54,9 @@ public class FListItems extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             deletedExpenseId = getArguments().getString(ARG);
-            User.expenses.removeIf(expense -> expense.id.equals(deletedExpenseId));
+            UserData.expenses.removeIf(expense -> expense.id.equals(deletedExpenseId));
             FirebaseFirestore db = FirebaseFirestore.getInstance();
-            db.collection(DAO.Users)
+            db.collection(DBS.Users)
                     .document(FirebaseAuth.getInstance().getUid())
                     .collection("expenses")
                     .document(deletedExpenseId)
@@ -66,7 +66,7 @@ public class FListItems extends Fragment {
                     });
         }
         if (sortBy.isEmpty())
-            sortBy = DAO.EXPENSES.title;
+            sortBy = DBS.EXPENSES.title;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class FListItems extends Fragment {
         toggleGroup = v.findViewById(R.id.toggleGroup);
         updateChecked();
 
-        adapter = new ExpensesAdapter(getContext(), User.expenses);
+        adapter = new ExpensesAdapter(getContext(), UserData.expenses);
         listView = v.findViewById(R.id.listExpenses);
         listView.setAdapter(adapter);
 
@@ -99,11 +99,11 @@ public class FListItems extends Fragment {
             public void onButtonChecked(MaterialButtonToggleGroup group, int checkedId, boolean isChecked) {
                 if (isChecked) {
                     if (checkedId == R.id.toggle_name) {
-                        sortBy = DAO.EXPENSES.title;
+                        sortBy = DBS.EXPENSES.title;
                     } else if (checkedId == R.id.toggle_price) {
-                        sortBy = DAO.EXPENSES.cost;
+                        sortBy = DBS.EXPENSES.cost;
                     } else if (checkedId == R.id.toggle_date) {
-                        sortBy = DAO.EXPENSES.datetime;
+                        sortBy = DBS.EXPENSES.datetime;
                     }
                     sortItems();
                     adapter.notifyDataSetChanged();
@@ -115,7 +115,7 @@ public class FListItems extends Fragment {
             if (sortAscending) {
                 ic_toggle_up.setVisibility(View.GONE);
                 ic_toggle_down.setVisibility(View.VISIBLE);
-                Collections.reverse(User.expenses);
+                Collections.reverse(UserData.expenses);
                 adapter.notifyDataSetChanged();
                 sortAscending = false;
             }
@@ -125,7 +125,7 @@ public class FListItems extends Fragment {
             if (!sortAscending) {
                 ic_toggle_down.setVisibility(View.GONE);
                 ic_toggle_up.setVisibility(View.VISIBLE);
-                Collections.reverse(User.expenses);
+                Collections.reverse(UserData.expenses);
                 adapter.notifyDataSetChanged();
                 sortAscending = true;
             }
@@ -137,13 +137,13 @@ public class FListItems extends Fragment {
     private void updateChecked() {
         sortItems();
         switch (sortBy) {
-            case DAO.EXPENSES.title:
+            case DBS.EXPENSES.title:
                 toggleGroup.check(R.id.toggle_name);
                 break;
-            case DAO.EXPENSES.cost:
+            case DBS.EXPENSES.cost:
                 toggleGroup.check(R.id.toggle_price);
                 break;
-            case DAO.EXPENSES.datetime:
+            case DBS.EXPENSES.datetime:
                 toggleGroup.check(R.id.toggle_date);
                 break;
         }
@@ -156,26 +156,26 @@ public class FListItems extends Fragment {
     public void sortItems() {
         if (sortAscending) {
             switch (sortBy) {
-                case DAO.EXPENSES.title:
-                    User.expenses.sort(compareByName);
+                case DBS.EXPENSES.title:
+                    UserData.expenses.sort(compareByName);
                     break;
-                case DAO.EXPENSES.cost:
-                    User.expenses.sort(compareByPrice);
+                case DBS.EXPENSES.cost:
+                    UserData.expenses.sort(compareByPrice);
                     break;
-                case DAO.EXPENSES.datetime:
-                    User.expenses.sort(compareByDate);
+                case DBS.EXPENSES.datetime:
+                    UserData.expenses.sort(compareByDate);
                     break;
             }
         } else {
             switch (sortBy) {
-                case DAO.EXPENSES.title:
-                    User.expenses.sort(compareByName.reversed());
+                case DBS.EXPENSES.title:
+                    UserData.expenses.sort(compareByName.reversed());
                     break;
-                case DAO.EXPENSES.cost:
-                    User.expenses.sort(compareByPrice.reversed());
+                case DBS.EXPENSES.cost:
+                    UserData.expenses.sort(compareByPrice.reversed());
                     break;
-                case DAO.EXPENSES.datetime:
-                    User.expenses.sort(compareByDate.reversed());
+                case DBS.EXPENSES.datetime:
+                    UserData.expenses.sort(compareByDate.reversed());
                     break;
             }
         }
