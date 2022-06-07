@@ -10,11 +10,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.walletapp.Group;
 import com.example.walletapp.DAO;
+import com.example.walletapp.Group;
 import com.example.walletapp.R;
 import com.example.walletapp.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,11 +30,11 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
     ArrayList<Group> groupsList;
     GroupAdapter groupsAdapter;
     AutoCompleteTextView atv_groupsSpinner;
-    private Group currentGroup;
-
     ArrayList<GroupUser> usersList;
     GroupUserAdapter usersAdapter;
     RecyclerView usersRecyclerView;
+    Observer<ArrayList<String>> groupObserver;
+    private Group currentGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +50,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
         groupsList = DAO.getInstance().getCurrentUserGroupsOwned();
         groupsAdapter = new GroupAdapter(this, groupsList);
         atv_groupsSpinner.setAdapter(groupsAdapter);
+        groupObserver = update -> updateUsersList();
 
         // users
         usersRecyclerView = findViewById(R.id.users_recycler);
@@ -63,10 +65,12 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
         });
 
         btn_addUser.setOnClickListener(l -> {
-            GroupActionFragment fragment = GroupActionFragment.newInstance("user", "User Email (existing)");
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.frameGroups, fragment);
-            ft.commit();
+            if(currentGroup != null){
+                GroupActionFragment fragment = GroupActionFragment.newInstance("user", "User Email (existing)");
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameGroups, fragment);
+                ft.commit();
+            }
         });
 
         DAO.getInstance().groups.observe(this, updatedGroups -> {
@@ -86,9 +90,19 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
 
     private void groupSelected(String gid, int position) {
         Toast.makeText(GroupsActivity.this, gid, Toast.LENGTH_SHORT).show();
-        currentGroup = groupsAdapter.getItem(position);
-        updateUsersList();
+        switchCurrentGroup(position);
         // todo - update ui
+    }
+
+    private void switchCurrentGroup(int position) {
+        if(currentGroup == null){                               // if current group wasn't set yet
+            currentGroup = groupsAdapter.getItem(position);
+            currentGroup.users.observe(this, groupObserver);
+        } else if(!currentGroup.getId().equals(groupsAdapter.getItem(position).getId())){  // switch only to another group
+            currentGroup.users.removeObserver(groupObserver);
+            currentGroup = groupsAdapter.getItem(position);
+            currentGroup.users.observe(this, groupObserver);
+        }
     }
 
 
@@ -100,6 +114,16 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
         usersRecyclerView.setAdapter(usersAdapter);
     }
 
+    private void updateUsersList() {
+        usersList.clear();
+        for (String uid : currentGroup.users.getValue()) {
+            User user = DAO.getInstance().getUserFromId(uid);
+            if (user != null) {
+                usersList.add(new GroupUser(uid, user.userData.name));
+            }
+        }
+        usersAdapter.notifyDataSetChanged();
+    }
 
     @Override
     public void notifyGroupAdded(String groupName) {
@@ -109,35 +133,21 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
         dao.addUserToGroup(uid, groupName);
 
         atv_groupsSpinner.setText(groupName, false);
-        for(int i = 0; i < groupsAdapter.getCount(); i++){
-            if(groupsAdapter.getItem(i).getId().equals(groupName)){
-                currentGroup = groupsAdapter.getItem(i);
-                updateUsersList();
+        for (int i = 0; i < groupsAdapter.getCount(); i++) {
+            if (groupsAdapter.getItem(i).getId().equals(groupName)) {
+                switchCurrentGroup(i);
                 break;
             }
         }
     }
 
-    private void updateUsersList() {
-        usersList.clear();
-        for(String uid : currentGroup.users){
-            User user = DAO.getInstance().getUserFromId(uid);
-            if(user != null){
-                usersList.add(new GroupUser(uid, user.userData.name));
-            }
-        }
-        usersAdapter.notifyDataSetChanged();
-    }
-
     @Override
     public void notifyUserFound(GroupUser groupUser) {
         DAO.getInstance().addUserToGroup(groupUser.uid, currentGroup.getId());
-        usersList.add(0, groupUser);
-        usersAdapter.notifyItemInserted(0);
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    public void onUserItemClick(View view, int position) {
         Toast.makeText(this, usersAdapter.getItem(position).name, Toast.LENGTH_SHORT).show();
     }
 }

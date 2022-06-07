@@ -19,13 +19,12 @@ public class GroupUserAdapter extends RecyclerView.Adapter<GroupUserAdapter.View
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
-    // data is passed into the constructor
     GroupUserAdapter(Context context, List<GroupUser> users) {
         this.mInflater = LayoutInflater.from(context);
         this.users = users;
     }
 
-    // inflates the row layout from xml when needed
+    // inflates the row layout from xml
     @Override
     @NonNull
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,7 +39,6 @@ public class GroupUserAdapter extends RecyclerView.Adapter<GroupUserAdapter.View
         holder.myTextView.setText(user.name);
     }
 
-    // total number of rows
     @Override
     public int getItemCount() {
         return users.size();
@@ -58,22 +56,19 @@ public class GroupUserAdapter extends RecyclerView.Adapter<GroupUserAdapter.View
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            if (mClickListener != null) mClickListener.onUserItemClick(view, getAdapterPosition());
         }
     }
 
-    // convenience method for getting data at click position
     public GroupUser getItem(int id) {
         return users.get(id);
     }
 
-    // allows clicks events to be caught
     public void setClickListener(ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 
-    // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position);
+        void onUserItemClick(View view, int position);
     }
 }

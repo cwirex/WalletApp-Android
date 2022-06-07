@@ -23,7 +23,6 @@ public class DAO {
     private final FirebaseFirestore firestore;
 
     private DAO() {
-        //todo: listeners for each sub-collection
         firestore = FirebaseFirestore.getInstance();
         firestore.collection(DBS.Groups)
                 .addSnapshotListener((value, error) -> {
@@ -37,20 +36,9 @@ public class DAO {
                                         Map<String, Object> data = v.getData();
                                         String owner = String.valueOf(data.getOrDefault(DBS.GROUPS.owner, ""));
                                         boolean isNewGroup = (boolean) data.getOrDefault(DBS.GROUPS.isnew, false);
-                                        v.getReference().collection(DBS.GROUPS.users)
-                                                .get()
-                                                .addOnCompleteListener(task -> {
-                                                    ArrayList<String> usersIds = new ArrayList<>();
-                                                    if (task.isSuccessful()) {
-                                                        for (DocumentSnapshot doc : task.getResult()) {
-                                                            Map<String, Object> temp = doc.getData();
-                                                            usersIds.add(String.valueOf(temp.get(DBS.GROUPS.USERS.id)));
-                                                        }
-                                                    }
-                                                    arrayList.add(new Group(gid, owner, usersIds, isNewGroup));
-                                                });
-                                    } catch (ClassCastException castException) {
-                                        Log.e(TAG, "!! DAO: cast exception");
+                                        arrayList.add(new Group(gid, owner, isNewGroup, v.getReference()));
+                                    } catch (Exception e) {
+                                        Log.e(TAG, "!! DAO: cast | read exception");
                                     }
                                 });
                                 groups.setValue(arrayList);
