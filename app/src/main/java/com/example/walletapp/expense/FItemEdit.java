@@ -1,6 +1,6 @@
 package com.example.walletapp.expense;
 
-import static com.example.walletapp.expense.CreateExpenseActivity.categories;
+import static com.example.walletapp.DBS.categoriesList;
 import static com.example.walletapp.expense.CreateExpenseActivity.myDateToLocalDateTime;
 
 import android.app.AlertDialog;
@@ -84,7 +84,7 @@ public class FItemEdit extends Fragment {
         eCost.setText(expense.cost);
         eDesc.setText(expense.description);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.list_item_category, categories);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.list_item_category, categoriesList);
         spinnerCat.setText(expense.category);
         spinnerCat.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();

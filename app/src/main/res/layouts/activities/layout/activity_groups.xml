@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginVertical="10dp"
         app:endIconTint="@color/purple_500">
 
         <AutoCompleteTextView
@@ -38,7 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.button.MaterialButton
@@ -71,6 +71,22 @@
                     app:strokeColor="@color/purple_500"
                     app:strokeWidth="2dp" />
             </LinearLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_createGroupExpense"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="10dp"
+                android:layout_weight="1"
+                android:paddingVertical="7dp"
+                android:text="Create new expense"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:cornerRadius="20dp"
+                app:strokeColor="@color/purple_500"
+                app:strokeWidth="2dp" />
 
             <HorizontalScrollView
                 android:layout_width="wrap_content"

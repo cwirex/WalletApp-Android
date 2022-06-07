@@ -1,5 +1,8 @@
 package com.example.walletapp;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public abstract class DBS {
 
     public static final String Users = "users";
@@ -37,5 +40,7 @@ public abstract class DBS {
         public static final String userid = "userId";
     }
 
+    public static final ArrayList<String> categoriesList = new ArrayList<>(Arrays.asList("Bill", "Food", "Gas", "Holidays"));
+    public static final ArrayList<String> splitMethodList = new ArrayList<>(Arrays.asList("Equal", "Other"));
 
 }

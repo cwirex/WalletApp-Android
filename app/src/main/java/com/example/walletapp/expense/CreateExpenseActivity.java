@@ -35,7 +35,7 @@ import java.util.StringTokenizer;
 
 public class CreateExpenseActivity extends AppCompatActivity {
 
-    static final ArrayList<String> categories = new ArrayList<>(Arrays.asList("Bill", "Food", "Gas", "Holidays"));
+
     DatePickerDialog datePickerDialog;
     private Button btn_create, btn_back, btn_date;
     private TextInputEditText eTitle, eCost, eDesc;
@@ -78,8 +78,8 @@ public class CreateExpenseActivity extends AppCompatActivity {
         spinnerCat = findViewById(R.id.spinner_category);
 
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item_category, categories);
-        spinnerCat.setText(categories.get(0));
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.list_item_category, DBS.categoriesList);
+        spinnerCat.setText(DBS.categoriesList.get(0));
         spinnerCat.setAdapter(adapter);
         adapter.notifyDataSetChanged();
 

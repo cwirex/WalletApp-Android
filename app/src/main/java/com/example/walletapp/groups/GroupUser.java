@@ -8,4 +8,9 @@ public class GroupUser {
         this.uid = uid;
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

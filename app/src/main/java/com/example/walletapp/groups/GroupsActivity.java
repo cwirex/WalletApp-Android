@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class GroupsActivity extends AppCompatActivity implements GroupActionFragment.OnFragmentActionListener, GroupUserAdapter.ItemClickListener {
 
-    Button btn_addUser, btn_newGroup;
+    Button btn_addUser, btn_newGroup, btn_createExpense;
     FrameLayout frame;
 
     ArrayList<Group> groupsList;
@@ -46,6 +46,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
 
         btn_addUser = findViewById(R.id.btn_adduserGROUPS);
         btn_newGroup = findViewById(R.id.btn_addgroupGROUPS);
+        btn_createExpense = findViewById(R.id.btn_createGroupExpense);
         frame = findViewById(R.id.frameGroups);
 
         // groups
@@ -67,13 +68,27 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
             ft.commit();
         });
 
+        btn_createExpense.setOnClickListener(l -> {
+            if(currentGroup != null) {
+                String uid = FirebaseAuth.getInstance().getUid();
+                String gid = currentGroup.getId();
+                CreateGroupExpenseFragment fragment = CreateGroupExpenseFragment.newInstance(uid, gid);
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameGroups, fragment);
+                ft.commit();
+            } else
+                Toast.makeText(this, "Select group first!", Toast.LENGTH_SHORT).show();
+        });
+
         btn_addUser.setOnClickListener(l -> {
             if(currentGroup != null){
                 GroupActionFragment fragment = GroupActionFragment.newInstance("user", "User Email (existing)");
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameGroups, fragment);
                 ft.commit();
-            }
+            } else
+                Toast.makeText(this, "Select group first!", Toast.LENGTH_SHORT).show();
+
         });
 
         DAO.getInstance().groups.observe(this, updatedGroups -> {
@@ -92,7 +107,6 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
     }
 
     private void groupSelected(String gid, int position) {
-        Toast.makeText(GroupsActivity.this, gid, Toast.LENGTH_SHORT).show();
         switchCurrentGroup(position);
         // update ui
     }

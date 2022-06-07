@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="30dp"
+    tools:context=".groups.CreateGroupExpenseFragment">
+
+    <ImageView
+        android:id="@+id/grExp_btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/save"
+        android:padding="2dp"
+        android:src="@drawable/ic_baseline_close_32" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:layout_weight="0"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/new_expense"
+            android:textSize="20sp" />
+
+        <!-- TITLE -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="2dp"
+                app:contentPadding="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/grExp_et_titleCREATE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:height="40dp"
+                    android:autofillHints="title"
+                    android:hint="@string/title"
+                    android:inputType="text"
+                    android:text="" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- COST -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="2dp"
+                app:contentPadding="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/grExp_et_costCREATE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:height="40dp"
+                    android:autofillHints="cost"
+                    android:hint="@string/cost"
+                    android:inputType="numberDecimal"
+                    android:text="" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--            CATEGORY    -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                app:endIconTint="@color/purple_500">
+
+                <AutoCompleteTextView
+                    android:id="@+id/grExp_spinner_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/category"
+                    android:inputType="none"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!--            PAID BY     -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                app:endIconTint="@color/purple_500">
+
+                <AutoCompleteTextView
+                    android:id="@+id/grExp_spinner_paidBy"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Paid by"
+                    android:inputType="none"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            s<!--            PAID BY     -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                app:endIconTint="@color/purple_500">
+
+                <AutoCompleteTextView
+                    android:id="@+id/grExp_spinner_splitMethod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Split method"
+                    android:inputType="none"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- OPIS -->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                app:cardCornerRadius="2dp"
+                app:contentPadding="5dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/grExp_et_descCREATE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:height="40dp"
+                    android:hint="@string/description_optional"
+                    android:inputType="text"
+                    android:text="" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/grExp_btn_addCREATE"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/purple_500"
+            android:padding="8dp"
+            android:text="@string/create"
+            android:textSize="17sp" />
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

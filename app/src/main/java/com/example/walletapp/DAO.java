@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.walletapp.groups.GroupUser;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -13,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -126,5 +128,25 @@ public class DAO {
                 return u;
         }
         return null;
+    }
+
+    public ArrayList<GroupUser> getGroupUsersList(String gid) {
+        if(gid == null)
+            return null;
+        Group target = null;
+        for(Group g : groups.getValue()){
+            if(gid.equals(g.getId())) {
+                target = g;
+                break;
+            }
+        }
+        ArrayList<GroupUser> usersList = new ArrayList<>();
+        for (String uid : target.users.getValue()) {
+            User user = DAO.getInstance().getUserFromId(uid);
+            if (user != null) {
+                usersList.add(new GroupUser(uid, user.userData.name));
+            }
+        }
+        return usersList;
     }
 }

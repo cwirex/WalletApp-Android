@@ -30,6 +30,7 @@
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/activity_summary.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_add_user.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_create_group.xml" value="0.28931623931623934" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_create_group_expense.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_f_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_f_item_add.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layout/fragment_f_item_edit.xml" value="0.36666666666666664" />
@@ -50,6 +51,7 @@
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layouts/activities/layout/activity_profile.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layouts/activities/layout/activity_summary.xml" value="0.25833333333333336" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layouts/fragments/drawable/ic_baseline_close_32.xml" value="0.241" />
+        <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layouts/fragments/layout/fragment_create_group_expense.xml" value="0.2970464135021097" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layouts/fragments/layout/fragment_f_item.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layouts/fragments/layout/fragment_f_item_edit.xml" value="0.30085470085470084" />
         <entry key="..\:/Users/ocwie/AndroidStudioProjects/WalletApp/app/src/main/res/layouts/fragments/layout/fragment_f_list_items.xml" value="0.2970464135021097" />
