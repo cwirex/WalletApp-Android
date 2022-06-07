@@ -1,5 +1,7 @@
 package com.example.walletapp.groups;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,6 +42,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groups);
+        getSupportActionBar().hide();
 
         btn_addUser = findViewById(R.id.btn_adduserGROUPS);
         btn_newGroup = findViewById(R.id.btn_addgroupGROUPS);
@@ -91,7 +94,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
     private void groupSelected(String gid, int position) {
         Toast.makeText(GroupsActivity.this, gid, Toast.LENGTH_SHORT).show();
         switchCurrentGroup(position);
-        // todo - update ui
+        // update ui
     }
 
     private void switchCurrentGroup(int position) {
@@ -148,6 +151,13 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
 
     @Override
     public void onUserItemClick(View view, int position) {
-        Toast.makeText(this, usersAdapter.getItem(position).name, Toast.LENGTH_SHORT).show();
+        String uid = usersAdapter.getItem(position).uid;
+        if(uid != null){
+            UserProfileFragment fragment = UserProfileFragment.newInstance(uid, currentGroup.getId());
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.frameGroups, fragment);
+            ft.commit();
+        } // remove when group changes?
+//        Toast.makeText(this, usersAdapter.getItem(position).name, Toast.LENGTH_SHORT).show();
     }
 }

@@ -42,7 +42,7 @@
             android:layout_weight="1"
             android:contentDescription="@string/back"
             android:src="@drawable/ic_baseline_close_50"
-            app:tint="@color/black" />
+            app:tint="@color/purple_700" />
 
         <ImageView
             android:id="@+id/btn_submitGROUP"
@@ -51,7 +51,7 @@
             android:layout_weight="1"
             android:contentDescription="@string/edit"
             android:src="@drawable/ic_baseline_check_50"
-            app:tint="@color/black" />
+            app:tint="@color/purple_700" />
     </LinearLayout>
 
 

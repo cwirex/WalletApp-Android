@@ -24,17 +24,6 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/btn_groups"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginVertical="15dp"
-            android:backgroundTint="@color/blue"
-            android:padding="6dp"
-            android:text="Groups"
-            android:textSize="21sp" />
-
-        <Button
             android:id="@+id/btn_expense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,6 +54,17 @@
             android:backgroundTint="@color/teal_700"
             android:padding="6dp"
             android:text="@string/profile"
+            android:textSize="21sp" />
+
+        <Button
+            android:id="@+id/btn_groups"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="15dp"
+            android:backgroundTint="@color/material_red"
+            android:padding="6dp"
+            android:text="Groups"
             android:textSize="21sp" />
 
         <Button
