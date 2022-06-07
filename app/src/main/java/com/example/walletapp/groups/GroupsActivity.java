@@ -50,7 +50,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
 
         // groups
         atv_groupsSpinner = findViewById(R.id.spinner_groups);
-        groupsList = DAO.getInstance().getCurrentUserGroupsOwned();
+        groupsList = DAO.getInstance().getUserGroups(FirebaseAuth.getInstance().getUid());
         groupsAdapter = new GroupAdapter(this, groupsList);
         atv_groupsSpinner.setAdapter(groupsAdapter);
         groupObserver = update -> updateUsersList();
@@ -78,7 +78,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
 
         DAO.getInstance().groups.observe(this, updatedGroups -> {
             groupsList.clear();
-            groupsList.addAll(DAO.getInstance().getCurrentUserGroupsOwned());
+            groupsList.addAll(DAO.getInstance().getUserGroups(FirebaseAuth.getInstance().getUid()));
             groupsAdapter.notifyDataSetChanged();
         });
 
@@ -146,7 +146,9 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
 
     @Override
     public void notifyUserFound(GroupUser groupUser) {
-        DAO.getInstance().addUserToGroup(groupUser.uid, currentGroup.getId());
+        DAO dao = DAO.getInstance();
+        dao.addUserToGroup(groupUser.uid, currentGroup.getId());
+        dao.addGroupToUser(currentGroup.getId(), groupUser.uid);
     }
 
     @Override

@@ -72,7 +72,7 @@ public class DAO {
     public void addGroupToUser(String groupName, String uid) {
         if (uid != null && !groupName.isEmpty()) {
             HashMap<String, Object> entry = new HashMap<>();
-            entry.put("groupId", groupName);
+            entry.put(DBS.USERS.groupid, groupName);
             entry.put("joinedAt", LocalDateTime.now());
             FirebaseFirestore.getInstance()
                     .collection(DBS.Users)
@@ -87,7 +87,7 @@ public class DAO {
     public void addUserToGroup(String uid, String groupName) {
         if (uid != null && !groupName.isEmpty()) {
             HashMap<String, Object> entry = new HashMap<>();
-            entry.put("userId", uid);
+            entry.put(DBS.GROUPS.userid, uid);
             entry.put("joinedAt", LocalDateTime.now());
             FirebaseFirestore.getInstance()
                     .collection(DBS.Groups)
@@ -97,6 +97,15 @@ public class DAO {
                     .set(entry)
                     .addOnFailureListener(e -> Log.w(TAG, "! Append user to group failed " + e.getMessage()));
         }
+    }
+
+    public ArrayList<Group> getUserGroups(String uid){
+        ArrayList<Group> result = new ArrayList<>();
+        for (Group g : groups.getValue()) {
+            if (g.users.getValue().contains(uid))
+                result.add(g);
+        }
+        return result;
     }
 
     public ArrayList<Group> getCurrentUserGroupsOwned() {

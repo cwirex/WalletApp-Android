@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.walletapp.DAO;
 import com.example.walletapp.DBS;
@@ -19,7 +20,7 @@ import com.example.walletapp.profile.ProfileDisplayFragment;
 
 public class UserProfileFragment extends Fragment {
 
-    Button btn_back;
+    ImageView btn_back;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String uid;
@@ -59,7 +60,6 @@ public class UserProfileFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-
         User user = DAO.getInstance().getUserFromId(uid);
         Integer[] f_ids = {R.id.frameNameGroupUserProfile, R.id.frameEmailGroupUserProfile, R.id.framePhoneGroupUserProfile, R.id.frameBankGroupUserProfile};
         String[] f_names = {DBS.USERS.name, DBS.USERS.email, DBS.USERS.phone, DBS.USERS.bank};

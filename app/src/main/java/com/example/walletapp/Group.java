@@ -36,7 +36,7 @@ public class Group {
                         value.forEach(v -> {
                             try {
                                 Map<String, Object> data = v.getData();
-                                String strId = String.valueOf(data.getOrDefault(DBS.GROUPS.USERS.id, ""));
+                                String strId = String.valueOf(data.getOrDefault(DBS.GROUPS.userid, ""));
                                 if (!strId.isEmpty())
                                     arrayList.add(strId);
                             } catch (Exception e) {

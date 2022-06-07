@@ -11,6 +11,7 @@ public abstract class DBS {
         public static final String name = "name";
         public static final String bank = "bank";
         public static final String phone = "phone";
+        public static final String groupid = "groupId";
     }
 
     public abstract static class EXPENSES {
@@ -33,10 +34,7 @@ public abstract class DBS {
         public static final String users = "users";
         public static final String isnew = "new_group";
         public static final String owner = "owner";
-        public abstract static class USERS{
-            public static final String id = "userId";
-        }
-
+        public static final String userid = "userId";
     }
 
 
