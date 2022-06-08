@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="30dp"
+    tools:context=".groups.GroupSummaryFragment">
+
+    <ImageView
+        android:id="@+id/grSummary_btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/save"
+        android:padding="2dp"
+        android:src="@drawable/ic_baseline_close_32" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginVertical="10dp"
+            android:layout_weight="0"
+            android:fontFamily="sans-serif-black"
+            android:text="Summary"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="7dp"
+            android:layout_marginStart="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="Users in group:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/grSumm_tv_usersInGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8sp"
+                android:layout_weight="1"
+                android:text="4"
+                android:textColor="@color/purple_500"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="7dp"
+            android:layout_marginStart="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="Number of expenses:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/grSumm_tv_numberOfExpenses"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8sp"
+                android:layout_weight="1"
+                android:text="10"
+                android:textColor="@color/purple_500"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="7dp"
+            android:layout_marginStart="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:text="Total value:"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/grSumm_tv_totalValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8sp"
+                android:layout_weight="1"
+                android:text="7091.86"
+                android:textColor="@color/purple_500"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/grSumm_btn_calculate"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:layout_marginHorizontal="5dp"
+            android:paddingVertical="10dp"
+            android:text="@string/calculate_best_split"
+            android:textSize="16sp"
+            app:cornerRadius="16dp"
+            app:strokeWidth="3dp" />
+
+        <FrameLayout
+            android:id="@+id/grSumm_frame"
+            android:visibility="gone"
+            android:layout_marginVertical="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

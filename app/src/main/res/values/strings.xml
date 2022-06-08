@@ -50,4 +50,9 @@
     <string name="oauth">oAuth</string>
     <string name="submit">Submit</string>
     <string name="copy">copy</string>
+    <string name="add_expense">Add expense</string>
+    <string name="add_user">Add user</string>
+    <string name="new_group">New group</string>
+    <string name="select_group">Select group</string>
+    <string name="calculate_best_split">Calculate best split</string>
 </resources>

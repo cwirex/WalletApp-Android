@@ -1,11 +1,7 @@
 package com.example.walletapp;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -15,16 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.walletapp.auth.LoginActivity;
 import com.example.walletapp.auth.UserData;
-import com.example.walletapp.expense.Expense;
 import com.example.walletapp.expense.ExpensesActivity;
 import com.example.walletapp.groups.GroupsActivity;
 import com.example.walletapp.profile.ProfileActivity;
 import com.example.walletapp.summary.SummaryActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -76,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         btn_groups.setOnClickListener(click ->
                 startActivity(new Intent(getApplicationContext(), GroupsActivity.class)));
 
+        /*
         FirebaseUser user = auth.getCurrentUser();
         assert user != null;
         String UID = user.getUid();
@@ -83,8 +75,10 @@ public class MainActivity extends AppCompatActivity {
             UserData.UID = UID;
             getUserData(user.getUid());
         }
+        */
     }
 
+/*
     private void getUserData(String UID) {
         pgBar.setVisibility(View.VISIBLE);
         pgBackground.setVisibility(View.VISIBLE);
@@ -126,4 +120,5 @@ public class MainActivity extends AppCompatActivity {
                     pgBackground.setVisibility(View.GONE);
                 });
     }
+    */
 }

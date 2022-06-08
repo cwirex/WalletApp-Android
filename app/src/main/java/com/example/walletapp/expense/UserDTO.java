@@ -1,4 +1,4 @@
-package com.example.walletapp;
+package com.example.walletapp.expense;
 
 import java.util.HashMap;
 import java.util.Map;

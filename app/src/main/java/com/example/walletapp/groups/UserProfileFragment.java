@@ -8,15 +8,12 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 
 import com.example.walletapp.DAO;
 import com.example.walletapp.DBS;
 import com.example.walletapp.R;
 import com.example.walletapp.User;
-import com.example.walletapp.auth.UserData;
-import com.example.walletapp.profile.ProfileDisplayFragment;
 
 public class UserProfileFragment extends Fragment {
 

@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.walletapp.expense.UserDTO;
 import com.example.walletapp.groups.GroupExpenseDTO;
 import com.example.walletapp.groups.GroupUser;
 import com.google.firebase.auth.FirebaseAuth;
@@ -99,7 +100,7 @@ public class DAO {
         }
     }
 
-    public ArrayList<Group> getUserGroups(String uid){
+    public ArrayList<Group> getUserGroups(String uid) {
         ArrayList<Group> result = new ArrayList<>();
         for (Group g : groups.getValue()) {
             if (g.users.getValue().contains(uid))
@@ -129,11 +130,11 @@ public class DAO {
     }
 
     public ArrayList<GroupUser> getGroupUsersList(String gid) {
-        if(gid == null)
+        if (gid == null)
             return null;
         Group target = null;
-        for(Group g : groups.getValue()){
-            if(gid.equals(g.getId())) {
+        for (Group g : groups.getValue()) {
+            if (gid.equals(g.getId())) {
                 target = g;
                 break;
             }
@@ -148,8 +149,8 @@ public class DAO {
         return usersList;
     }
 
-    public void pushGroupExpense(GroupExpenseDTO dto, String gid){
-        if(gid.isEmpty())
+    public void pushGroupExpense(GroupExpenseDTO dto, String gid) {
+        if (gid.isEmpty())
             return;
         firestore
                 .collection(DBS.Groups)

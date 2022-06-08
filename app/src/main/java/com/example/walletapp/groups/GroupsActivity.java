@@ -25,9 +25,9 @@ import java.util.ArrayList;
 
 public class GroupsActivity extends AppCompatActivity implements GroupActionFragment.OnFragmentActionListener, GroupUserAdapter.ItemClickListener {
 
-    Button btn_addUser, btn_newGroup, btn_createExpense;
+    private final ArrayList<GroupExpenseDTO> expensesList = new ArrayList<>();
+    Button btn_addUser, btn_newGroup, btn_createExpense, btn_summary;
     FrameLayout frame;
-
     ArrayList<Group> groupsList;
     GroupAdapter groupsAdapter;
     AutoCompleteTextView atv_groupsSpinner;
@@ -37,8 +37,6 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
     Observer<ArrayList<String>> groupObserver;
     Observer<ArrayList<GroupExpenseDTO>> expensesObserver;
     private Group currentGroup;
-
-    private final ArrayList<GroupExpenseDTO> expensesList = new ArrayList<>();
     private GroupExpenseDTOAdapter expensesAdapter;
     private ListView listView;
 
@@ -51,6 +49,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
         btn_addUser = findViewById(R.id.btn_adduserGROUPS);
         btn_newGroup = findViewById(R.id.btn_addgroupGROUPS);
         btn_createExpense = findViewById(R.id.btn_createGroupExpense);
+        btn_summary = findViewById(R.id.grExp_btn_showSummary);
         frame = findViewById(R.id.frameGroups);
 
         // groups
@@ -79,7 +78,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
         });
 
         btn_createExpense.setOnClickListener(l -> {
-            if(currentGroup != null) {
+            if (currentGroup != null) {
                 String uid = FirebaseAuth.getInstance().getUid();
                 String gid = currentGroup.getId();
                 CreateGroupExpenseFragment fragment = CreateGroupExpenseFragment.newInstance(uid, gid);
@@ -91,7 +90,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
         });
 
         btn_addUser.setOnClickListener(l -> {
-            if(currentGroup != null){
+            if (currentGroup != null) {
                 GroupActionFragment fragment = GroupActionFragment.newInstance("user", "User Email (existing)");
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
                         .replace(R.id.frameGroups, fragment);
@@ -99,6 +98,16 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
             } else
                 Toast.makeText(this, "Select group first!", Toast.LENGTH_SHORT).show();
 
+        });
+
+        btn_summary.setOnClickListener(l -> {
+            if (currentGroup != null) {
+                GroupSummaryFragment fragment = GroupSummaryFragment.newInstance(currentGroup.getId());
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.frameGroups, fragment);
+                ft.commit();
+            } else
+                Toast.makeText(this, "Select group first!", Toast.LENGTH_SHORT).show();
         });
 
         DAO.getInstance().groups.observe(this, updatedGroups -> {
@@ -122,12 +131,11 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
     }
 
     private void switchCurrentGroup(int position) {
-        if(currentGroup == null) {                               // if current group wasn't set yet
+        if (currentGroup == null) {                               // if current group wasn't set yet
             currentGroup = groupsAdapter.getItem(position);
             currentGroup.users.observe(this, groupObserver);
             currentGroup.expenses.observe(this, expensesObserver);
-        }
-        else if(!currentGroup.getId().equals(groupsAdapter.getItem(position).getId())){  // switch only to another group
+        } else if (!currentGroup.getId().equals(groupsAdapter.getItem(position).getId())) {  // switch only to another group
             currentGroup.users.removeObserver(groupObserver);
             currentGroup.expenses.removeObserver(expensesObserver);
             currentGroup = groupsAdapter.getItem(position);
@@ -188,7 +196,7 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
     @Override
     public void onUserItemClick(View view, int position) {
         String uid = usersAdapter.getItem(position).uid;
-        if(uid != null){
+        if (uid != null) {
             UserProfileFragment fragment = UserProfileFragment.newInstance(uid, currentGroup.getId());
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction()
                     .replace(R.id.frameGroups, fragment);
