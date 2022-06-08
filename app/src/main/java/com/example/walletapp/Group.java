@@ -6,22 +6,20 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.walletapp.groups.GroupExpenseDTO;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class Group {
     public boolean new_group;
     public String owner;
     private String id;
-    public MutableLiveData<ArrayList<String>> users = new MutableLiveData<>();
+    public final MutableLiveData<ArrayList<String>> users = new MutableLiveData<>();
+    public final MutableLiveData<ArrayList<GroupExpenseDTO>> expenses = new MutableLiveData<>();
 
-    public Group() {
-
-    }
+    public Group() {}
 
     public Group(String id, String owner, boolean new_group, DocumentReference reference) {
         this.new_group = new_group;
@@ -46,13 +44,23 @@ public class Group {
                         users.setValue(arrayList);
                     }
                 });
-    }
-
-    public Group(String id, String owner, boolean new_group, ArrayList<String> users) {
-        this.id = id;
-        this.new_group = new_group;
-        this.owner = owner;
-        this.users.setValue(users);
+        reference.collection(DBS.GROUPS.Expenses)
+                .addSnapshotListener((value, error) -> {
+                    if (error != null) {
+                        Log.w(TAG, "Listen Failed", error);
+                    } else if (value != null) {
+                        ArrayList<GroupExpenseDTO> arrayList = new ArrayList<>();
+                        value.forEach(v -> {
+                            try {
+                                GroupExpenseDTO grExp = v.toObject(GroupExpenseDTO.class);
+                                arrayList.add(grExp);
+                            } catch (Exception e) {
+                                Log.e(TAG, "!! DAO: cast | read exception");
+                            }
+                        });
+                        expenses.setValue(arrayList);
+                    }
+                });
     }
     public String getId() {
         return id;

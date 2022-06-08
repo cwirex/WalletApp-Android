@@ -38,6 +38,7 @@ public abstract class DBS {
         public static final String isnew = "new_group";
         public static final String owner = "owner";
         public static final String userid = "userId";
+        public static final String Expenses = "expenses";
     }
 
     public static final ArrayList<String> categoriesList = new ArrayList<>(Arrays.asList("Bill", "Food", "Gas", "Holidays"));

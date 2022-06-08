@@ -16,12 +16,11 @@ import android.widget.Toast;
 
 import com.example.walletapp.DAO;
 import com.example.walletapp.DBS;
-import com.example.walletapp.GroupExpenseDTO;
 import com.example.walletapp.R;
-import com.example.walletapp.expense.CreateExpenseActivity;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CreateGroupExpenseFragment extends Fragment {
 
@@ -101,19 +100,36 @@ public class CreateGroupExpenseFragment extends Fragment {
             String description = et_description.getText().toString();
             String splitMethod = atv_splitMethod.getText().toString();
             String paidBy;
-            if(lastPaidByUser == null)
+            if(lastPaidByUser == null) {
                 paidBy = uid;
-            else if(atv_paidBy.getText().toString().equals(lastPaidByUser.name))
+            }
+            else if(atv_paidBy.getText().toString().equals(lastPaidByUser.name)) {
                 paidBy = lastPaidByUser.uid;
+            }
             else throw new RuntimeException("Unexpected paidBy state! <-- CreateGroupExpenseFragment");
 
-            GroupExpenseDTO expenseDTO = new GroupExpenseDTO(title, cost, category, paidBy, splitMethod, description);
-            Toast.makeText(getContext(), expenseDTO.toString(), Toast.LENGTH_LONG).show();
-
             //validate
-            //create object
-            //send to db
-            //close fragment
+            boolean valid = true;
+            if(title.isEmpty()){
+                et_title.setError("Field cannot be empty");
+                valid = false;
+            } if(cost.isEmpty()){
+                et_cost.setError("Field cannot be empty");
+                valid = false;
+            } else {
+                try {
+                    cost = String.format(Locale.US, "%.2f", Double.parseDouble(cost.replace(',', '.')));
+                } catch (Exception e) {
+                    et_cost.setError("Invalid value");
+                    valid = false;
+                }
+            }
+            if(valid){
+                GroupExpenseDTO expenseDTO = new GroupExpenseDTO(title, cost, category, paidBy, splitMethod, description);
+                DAO.getInstance().pushGroupExpense(expenseDTO, gid);
+                Toast.makeText(getContext(), "Saved", Toast.LENGTH_SHORT).show();
+                finish();
+            }
         });
 
 

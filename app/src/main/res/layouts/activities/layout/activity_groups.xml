@@ -26,7 +26,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="none">
 
         <LinearLayout
@@ -112,9 +112,19 @@
                 android:id="@+id/frameGroups"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-            <!--    GROUP EXPENSES     -->
         </LinearLayout>
+
     </ScrollView>
+    <!--    GROUP EXPENSES     -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginVertical="20dp">
 
-
+        <ListView
+            android:id="@+id/grExp_listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none" />
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

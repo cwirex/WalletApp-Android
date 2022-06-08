@@ -1,6 +1,4 @@
-package com.example.walletapp;
-
-import java.time.LocalDate;
+package com.example.walletapp.groups;
 
 public class GroupExpenseDTO {
     public String title;
@@ -9,7 +7,7 @@ public class GroupExpenseDTO {
     public String paidBy;
     public String splitMethod;
     public String description;
-    public LocalDate createdAt;
+    public Long createdAt;
 
     public GroupExpenseDTO() {
         // empty constructor required
@@ -22,8 +20,11 @@ public class GroupExpenseDTO {
         this.paidBy = paidBy;
         this.splitMethod = splitMethod;
         this.description = description;
-        createdAt = LocalDate.now();
+        createdAt = System.currentTimeMillis();
     }
+
+    // LocalDateTime date =
+    //    LocalDateTime.ofInstant(Instant.ofEpochMilli(longValue), ZoneId.systemDefault());
 
     @Override
     public String toString() {

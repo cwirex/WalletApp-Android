@@ -6,15 +6,13 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.walletapp.groups.GroupExpenseDTO;
 import com.example.walletapp.groups.GroupUser;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -148,5 +146,16 @@ public class DAO {
             }
         }
         return usersList;
+    }
+
+    public void pushGroupExpense(GroupExpenseDTO dto, String gid){
+        if(gid.isEmpty())
+            return;
+        firestore
+                .collection(DBS.Groups)
+                .document(gid)
+                .collection(DBS.Expenses)
+                .add(dto)
+                .addOnFailureListener(l -> Log.w(TAG, "pushGroupExpense failed : " + l.getMessage()));
     }
 }

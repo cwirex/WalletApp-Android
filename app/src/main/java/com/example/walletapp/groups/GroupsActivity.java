@@ -1,13 +1,12 @@
 package com.example.walletapp.groups;
 
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +35,12 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
     GroupUserAdapter usersAdapter;
     RecyclerView usersRecyclerView;
     Observer<ArrayList<String>> groupObserver;
+    Observer<ArrayList<GroupExpenseDTO>> expensesObserver;
     private Group currentGroup;
+
+    private final ArrayList<GroupExpenseDTO> expensesList = new ArrayList<>();
+    private GroupExpenseDTOAdapter expensesAdapter;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +59,17 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
         groupsAdapter = new GroupAdapter(this, groupsList);
         atv_groupsSpinner.setAdapter(groupsAdapter);
         groupObserver = update -> updateUsersList();
+        expensesObserver = update -> updateExpensesList();
 
         // users
         usersRecyclerView = findViewById(R.id.users_recycler);
         usersList = new ArrayList<>();
         setupUserAdapter();
+
+        //expenses
+        listView = findViewById(R.id.grExp_listView);
+        expensesAdapter = new GroupExpenseDTOAdapter(this, expensesList);
+        listView.setAdapter(expensesAdapter);
 
         btn_newGroup.setOnClickListener(l -> {
             GroupActionFragment fragment = GroupActionFragment.newInstance("group", "Group Name (unique)");
@@ -112,13 +122,17 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
     }
 
     private void switchCurrentGroup(int position) {
-        if(currentGroup == null){                               // if current group wasn't set yet
+        if(currentGroup == null) {                               // if current group wasn't set yet
             currentGroup = groupsAdapter.getItem(position);
             currentGroup.users.observe(this, groupObserver);
-        } else if(!currentGroup.getId().equals(groupsAdapter.getItem(position).getId())){  // switch only to another group
+            currentGroup.expenses.observe(this, expensesObserver);
+        }
+        else if(!currentGroup.getId().equals(groupsAdapter.getItem(position).getId())){  // switch only to another group
             currentGroup.users.removeObserver(groupObserver);
+            currentGroup.expenses.removeObserver(expensesObserver);
             currentGroup = groupsAdapter.getItem(position);
             currentGroup.users.observe(this, groupObserver);
+            currentGroup.expenses.observe(this, expensesObserver);
         }
     }
 
@@ -129,6 +143,12 @@ public class GroupsActivity extends AppCompatActivity implements GroupActionFrag
         usersAdapter = new GroupUserAdapter(this, usersList);
         usersAdapter.setClickListener(this);
         usersRecyclerView.setAdapter(usersAdapter);
+    }
+
+    private void updateExpensesList() {
+        expensesList.clear();
+        expensesList.addAll(currentGroup.expenses.getValue());
+        expensesAdapter.notifyDataSetChanged();
     }
 
     private void updateUsersList() {
