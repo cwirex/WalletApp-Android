@@ -102,8 +102,10 @@ public class DAO {
 
     public ArrayList<Group> getUserGroups(String uid) {
         ArrayList<Group> result = new ArrayList<>();
+        if(groups.getValue() == null)   // fixed
+            return result;
         for (Group g : groups.getValue()) {
-            if (g.users.getValue().contains(uid))
+            if (g.users.getValue() != null && g.users.getValue().contains(uid))
                 result.add(g);
         }
         return result;
