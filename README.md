@@ -3,22 +3,14 @@
 WalletApp is an android application for tracking expenses and sharing them with your friends.
 
 ## Features
-
-- **Authentication**:
-    - with email and password
-    - with Google
-- **User profile**
-- **Expenses**: create and modify
-- **Summary**: dynamic charts
-- **Sorting**: by name, price or date
-- **Groups** of friends:
-    - Create or join an existing group
-    - Invite some friends
-    - Share group expenses
-    - Split expenses with built-in **minimum-cash-flow** algorithm
-    - See **friends' profiles** and copy their phone/banking numbers
-
-
+- Create or join an existing **group of friends**
+- Invite new friends
+- Share your expenses
+- Split expenses smartly (with built-in minimum-cash-flow algorithm)
+- Obtain **friends' phone/banking numbers** from their profiles
+- **Google Authentication**
+- **Dynamic Expenses**
+- **Dynamic summary charts**
 
 ## Screenshots
 
@@ -44,13 +36,12 @@ WalletApp is an android application for tracking expenses and sharing them with 
 
 **Client:** Java 18, Android API 32
 
-**Server:** Firebase
+**Server:** Google Firebase
 
 ## Installation
 
 Simply download source code and run it in Android Studio.
 
 ## Authors
-
-- [@mateuszocwieja](https://www.github.com/cwirex)
+[@mateuszocwieja](https://www.github.com/cwirex)
 
